@@ -1,3 +1,10 @@
+# WARNING
+
+This repository will be moved in the future. It possibly will not be
+transferred via github transfer mechanisms, so the git URL may break.
+
+Don't use this yet unless you're prepared to deal with some breakage.
+
 # CookbookOmnifetch
 
 `CookbookOmnifetch` provides library code for fetching Chef cookbooks
