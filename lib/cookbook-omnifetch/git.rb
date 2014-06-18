@@ -1,4 +1,5 @@
 require 'tmpdir'
+require 'cookbook-omnifetch'
 require 'cookbook-omnifetch/base'
 require 'cookbook-omnifetch/exceptions'
 
@@ -142,7 +143,7 @@ module CookbookOmnifetch
         raise GitNotInstalled.new
       end
 
-      response = Buff::ShellOut.shell_out(%|git #{command}|)
+      response = CookbookOmnifetch.shell_out_class.shell_out(%|git #{command}|)
 
       if error && !response.success?
         raise GitCommandError.new(command, cache_path, response.stderr)
@@ -163,7 +164,7 @@ module CookbookOmnifetch
     #
     # @return [Pathname, nil]
     def install_path
-      CookbookOmnifetch.cookbook_store.storage_path
+      CookbookOmnifetch.storage_path
         .join("#{dependency.name}-#{revision}")
     end
 
@@ -171,7 +172,7 @@ module CookbookOmnifetch
     #
     # @return [Pathname]
     def cache_path
-      Pathname.new(CookbookOmnifetch.berkshelf_path)
+      Pathname.new(CookbookOmnifetch.cache_path)
         .join('.cache', 'git', Digest::SHA1.hexdigest(uri))
     end
   end

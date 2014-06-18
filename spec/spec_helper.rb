@@ -1,3 +1,4 @@
+require 'cookbook-omnifetch'
 
 module Fixtures
 
@@ -10,6 +11,8 @@ module Fixtures
   end
 
 end
+
+module MockShellOut; end
 
 RSpec.configure do |config|
 
@@ -27,5 +30,13 @@ RSpec.configure do |config|
   config.filter_run :focus => true
 
   config.run_all_when_everything_filtered = true
+
+  config.before(:suite) do
+    CookbookOmnifetch.configure do |c|
+      c.cache_path = File.expand_path('~/.berkshelf')
+      c.storage_path = Pathname.new(File.expand_path('~/.berkshelf/cookbooks'))
+      c.shell_out_class = MockShellOut
+    end
+  end
 end
 

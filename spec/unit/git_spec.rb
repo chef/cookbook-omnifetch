@@ -242,7 +242,7 @@ module CookbookOmnifetch
 
       it 'raises an error if the command fails' do
         shell_out = double('shell_out', success?: false, stderr: nil)
-        Buff::ShellOut.stub(:shell_out).and_return(shell_out)
+        MockShellOut.stub(:shell_out).and_return(shell_out)
         expect { subject.git('foo') }.to raise_error(GitCommandError)
       end
     end
