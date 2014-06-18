@@ -13,6 +13,7 @@ module Fixtures
 end
 
 module MockShellOut; end
+module MockCachedCookbook; end
 
 RSpec.configure do |config|
 
@@ -36,6 +37,7 @@ RSpec.configure do |config|
       c.cache_path = File.expand_path('~/.berkshelf')
       c.storage_path = Pathname.new(File.expand_path('~/.berkshelf/cookbooks'))
       c.shell_out_class = MockShellOut
+      c.cached_cookbook_class = MockCachedCookbook
     end
   end
 end

@@ -53,7 +53,7 @@ module CookbookOmnifetch
 
         before do
           File.stub(:cookbook?).and_return(true)
-          CachedCookbook.stub(:from_path).and_return(cookbook)
+          MockCachedCookbook.stub(:from_path).and_return(cookbook)
         end
 
         it 'raises an error if the constraint does not satisfy' do

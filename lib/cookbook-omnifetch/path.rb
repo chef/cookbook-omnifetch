@@ -20,7 +20,7 @@ module CookbookOmnifetch
 
     # @see BaseLocation#cached_cookbook
     def cached_cookbook
-      @cached_cookbook ||= CachedCookbook.from_path(expanded_path)
+      @cached_cookbook ||= CookbookOmnifetch.cached_cookbook_class.from_path(expanded_path)
     end
 
     # Returns true if the location is a metadata location. By default, no

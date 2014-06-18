@@ -76,6 +76,18 @@ module CookbookOmnifetch
     integration.shell_out_class
   end
 
+  # Returns an Object (generally a class, but not required) that respsonds to
+  # #from_path and returns an object representing the cookbook. In berkshelf,
+  # this would be a Berkshelf::CachedCookbook (inherits from
+  # Ridley::Chef::Cookbook). The object returned by
+  # `cached_cookbook_class.from_path(path)` is expected to respond to #version
+  # and #cookbook_name
+  #
+  # @return [#from_path]
+  def self.cached_cookbook_class
+    integration.cached_cookbook_class
+  end
+
   # Returns a pathname object representing the location where cookbooks are
   # cached.
   #

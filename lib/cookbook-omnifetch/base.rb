@@ -1,5 +1,4 @@
 require 'cookbook-omnifetch/exceptions'
-require 'cookbook-omnifetch/cached_cookbook'
 
 module CookbookOmnifetch
   class BaseLocation
@@ -62,7 +61,7 @@ module CookbookOmnifetch
         raise NotACookbook.new(path)
       end
 
-      cookbook = CachedCookbook.from_path(path)
+      cookbook = CookbookOmnifetch.cached_cookbook_class.from_path(path)
 
       unless @dependency.version_constraint.satisfies?(cookbook.version)
         raise CookbookValidationFailure.new(dependency, cookbook)

@@ -137,9 +137,9 @@ module CookbookOmnifetch
 
       it 'returns the cookbook at the install_path' do
         subject.stub(:installed?).and_return(true)
-        CachedCookbook.stub(:from_path)
+        MockCachedCookbook.stub(:from_path)
 
-        expect(CachedCookbook).to receive(:from_path).once
+        expect(MockCachedCookbook).to receive(:from_path).once
         subject.cached_cookbook
       end
     end

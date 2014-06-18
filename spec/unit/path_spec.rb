@@ -32,7 +32,7 @@ module CookbookOmnifetch
 
     describe '#cached_cookbook' do
       it 'loads the cached cookbook at the path' do
-        expect(CachedCookbook).to receive(:from_path).with(path)
+        expect(MockCachedCookbook).to receive(:from_path).with(path)
         subject.cached_cookbook
       end
     end

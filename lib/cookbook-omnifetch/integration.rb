@@ -34,6 +34,7 @@ module CookbookOmnifetch
     configurable :cache_path
     configurable :storage_path
     configurable :shell_out_class
+    configurable :cached_cookbook_class
 
     def initialize
       self.class.configurables.each do |configurable|

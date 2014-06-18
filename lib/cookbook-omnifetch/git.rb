@@ -83,7 +83,7 @@ module CookbookOmnifetch
     # @see BaseLocation#cached_cookbook
     def cached_cookbook
       if installed?
-        @cached_cookbook ||= CachedCookbook.from_path(install_path)
+        @cached_cookbook ||= CookbookOmnifetch.cached_cookbook_class.from_path(install_path)
       else
         nil
       end
