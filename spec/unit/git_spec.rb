@@ -1,6 +1,7 @@
 require 'spec_helper'
+require 'cookbook-omnifetch/git'
 
-module Berkshelf
+module CookbookOmnifetch
   describe GitLocation do
     let(:dependency) { double(name: 'bacon') }
 
@@ -235,7 +236,7 @@ module Berkshelf
       before { described_class.send(:public, :git) }
 
       it 'raises an error if Git is not installed' do
-        Berkshelf.stub(:which).and_return(false)
+        CookbookOmnifetch.stub(:which).and_return(false)
         expect { subject.git('foo') }.to raise_error(GitLocation::GitNotInstalled)
       end
 

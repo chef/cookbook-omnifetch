@@ -1,4 +1,4 @@
-module Berkshelf
+module CookbookOmnifetch
   class PathLocation < BaseLocation
     # Technically path locations are always installed, but this method
     # intentionally returns +false+ to force validation of the cookbook at the
@@ -64,7 +64,7 @@ module Berkshelf
     end
 
     def inspect
-      "#<Berkshelf::PathLocation metadata: #{metadata?}, path: #{relative_path}>"
+      "#<CookbookOmnifetch::PathLocation metadata: #{metadata?}, path: #{relative_path}>"
     end
   end
 end

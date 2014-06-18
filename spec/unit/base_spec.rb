@@ -1,6 +1,7 @@
 require 'spec_helper'
+require 'cookbook-omnifetch/base'
 
-module Berkshelf
+module CookbookOmnifetch
   describe BaseLocation do
     let(:constraint) { double('constraint') }
     let(:dependency) { double('dependency', name: 'cookbook', version_constraint: constraint) }

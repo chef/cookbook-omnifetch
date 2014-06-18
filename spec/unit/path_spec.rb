@@ -1,6 +1,7 @@
 require 'spec_helper'
+require 'cookbook-omnifetch/path'
 
-module Berkshelf
+module CookbookOmnifetch
   describe PathLocation do
     let(:berksfile) { double('berksfile', filepath: __FILE__) }
     let(:constraint) { double('constraint', satisfies?: true) }
@@ -100,7 +101,7 @@ module Berkshelf
     describe '#inspect' do
       it 'includes the right information' do
         subject.stub(:metadata?).and_return(true)
-        expect(subject.inspect).to eq("#<Berkshelf::PathLocation metadata: true, path: #{relative_path}>")
+        expect(subject.inspect).to eq("#<CookbookOmnifetch::PathLocation metadata: true, path: #{relative_path}>")
       end
     end
   end

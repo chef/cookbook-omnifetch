@@ -1,4 +1,6 @@
-module Berkshelf
+require 'cookbook-omnifetch/exceptions'
+
+module CookbookOmnifetch
   class BaseLocation
     attr_reader :dependency
     attr_reader :options
