@@ -13,13 +13,13 @@ module CookbookOmnifetch
       )
     end
     let(:path) { fixtures_path.join('cookbooks', 'example_cookbook') }
-    let(:relative_path) { Pathname.new('../../../fixtures/cookbooks/example_cookbook') }
+    let(:relative_path) { Pathname.new('../fixtures/cookbooks/example_cookbook') }
 
     subject { described_class.new(dependency, path: path) }
 
     describe '#installed?' do
       it 'returns false' do
-        expect(subject.installed?).to be_false
+        expect(subject.installed?).to be false
       end
     end
 

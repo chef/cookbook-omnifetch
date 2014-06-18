@@ -1,9 +1,22 @@
+
+module Fixtures
+
+  def fixtures_path
+    spec_root.join('fixtures')
+  end
+
+  def spec_root
+    Pathname.new(File.expand_path(File.dirname(__FILE__)))
+  end
+
+end
+
 RSpec.configure do |config|
 
   config.raise_errors_for_deprecations!
 
-  # `expect` should be preferred for new tests or when refactoring old tests,
-  # but we're not going to do a "big bang" change at this time.
+  config.include Fixtures
+
   config.expect_with :rspec do |c|
     c.syntax = [:expect]
   end

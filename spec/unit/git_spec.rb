@@ -79,19 +79,19 @@ module CookbookOmnifetch
     describe '#installed?' do
       it 'returns false when there is no revision' do
         subject.stub(:revision).and_return(nil)
-        expect(subject.installed?).to be_false
+        expect(subject.installed?).to be false
       end
 
       it 'returns false when the install_path does not exist' do
         subject.stub(:revision).and_return('abcd1234')
         subject.stub(:install_path).and_return(double(exist?: false))
-        expect(subject.installed?).to be_false
+        expect(subject.installed?).to be false
       end
 
       it 'returns true when the location is installed' do
         subject.stub(:revision).and_return('abcd1234')
         subject.stub(:install_path).and_return(double(exist?: true))
-        expect(subject.installed?).to be_true
+        expect(subject.installed?).to be true
       end
     end
 
@@ -237,13 +237,13 @@ module CookbookOmnifetch
 
       it 'raises an error if Git is not installed' do
         CookbookOmnifetch.stub(:which).and_return(false)
-        expect { subject.git('foo') }.to raise_error(GitLocation::GitNotInstalled)
+        expect { subject.git('foo') }.to raise_error(GitNotInstalled)
       end
 
       it 'raises an error if the command fails' do
         shell_out = double('shell_out', success?: false, stderr: nil)
         Buff::ShellOut.stub(:shell_out).and_return(shell_out)
-        expect { subject.git('foo') }.to raise_error(GitLocation::GitCommandError)
+        expect { subject.git('foo') }.to raise_error(GitCommandError)
       end
     end
   end

@@ -1,3 +1,5 @@
+require 'cookbook-omnifetch/base'
+
 module CookbookOmnifetch
   class PathLocation < BaseLocation
     # Technically path locations are always installed, but this method

@@ -73,7 +73,7 @@ module CookbookOmnifetch
 
         it 'returns true when the validation succeeds' do
           constraint.stub(:satisfies?).with('0.1.0').and_return(true)
-          expect(subject.validate_cached!(cookbook)).to be_true
+          expect(subject.validate_cached!(cookbook)).to be true
         end
       end
     end

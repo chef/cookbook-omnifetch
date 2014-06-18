@@ -1,3 +1,4 @@
+require 'tmpdir'
 require 'cookbook-omnifetch/base'
 require 'cookbook-omnifetch/exceptions'
 
@@ -26,7 +27,7 @@ module CookbookOmnifetch
 
     # @see BaseLoation#installed?
     def installed?
-      revision && install_path.exist?
+      (!!revision) && install_path.exist?
     end
 
     # Install this git cookbook into the cookbook store. This method leverages
@@ -75,7 +76,7 @@ module CookbookOmnifetch
       install_path.chmod(0777 & ~File.umask)
     ensure
       # Ensure the scratch directory is cleaned up
-      FileUtils.rm_rf(scratch_path)
+      FileUtils.rm_rf(scratch_path) if scratch_path
     end
 
     # @see BaseLocation#cached_cookbook
@@ -137,7 +138,7 @@ module CookbookOmnifetch
     # @raise [String]
     #   the +$stdout+ from the command
     def git(command, error = true)
-      unless Berkshelf.which('git') || Berkshelf.which('git.exe')
+      unless CookbookOmnifetch.which('git') || CookbookOmnifetch.which('git.exe')
         raise GitNotInstalled.new
       end
 
@@ -162,7 +163,7 @@ module CookbookOmnifetch
     #
     # @return [Pathname, nil]
     def install_path
-      Berkshelf.cookbook_store.storage_path
+      CookbookOmnifetch.cookbook_store.storage_path
         .join("#{dependency.name}-#{revision}")
     end
 
@@ -170,7 +171,7 @@ module CookbookOmnifetch
     #
     # @return [Pathname]
     def cache_path
-      Pathname.new(Berkshelf.berkshelf_path)
+      Pathname.new(CookbookOmnifetch.berkshelf_path)
         .join('.cache', 'git', Digest::SHA1.hexdigest(uri))
     end
   end
