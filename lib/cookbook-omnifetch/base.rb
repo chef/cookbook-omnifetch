@@ -57,7 +57,7 @@ module CookbookOmnifetch
     #
     # @return [true]
     def validate_cached!(path)
-      unless File.cookbook?(path)
+      unless CookbookOmnifetch.cookbook?(path)
         raise NotACookbook.new(path)
       end
 

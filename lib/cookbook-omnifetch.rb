@@ -1,6 +1,12 @@
 require "cookbook-omnifetch/version"
 require "cookbook-omnifetch/integration"
 
+require "cookbook-omnifetch/base"
+require "cookbook-omnifetch/git"
+require "cookbook-omnifetch/github"
+require "cookbook-omnifetch/path"
+
+
 module CookbookOmnifetch
 
   # Create a new instance of a Location class given dependency and options.
@@ -97,6 +103,16 @@ module CookbookOmnifetch
   # @return [Pathname]
   def self.storage_path
     integration.storage_path
+  end
+
+  # Returns true or false if the given path contains a Chef Cookbook
+  #
+  # @param [#to_s] path
+  #   path of directory to reflect on
+  #
+  # @return [Boolean]
+  def self.cookbook?(path)
+    File.exists?(File.join(path, "metadata.json")) || File.exists?(File.join(path, "metadata.rb"))
   end
 
   class << self

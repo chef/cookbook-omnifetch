@@ -34,7 +34,7 @@ module CookbookOmnifetch
 
     describe '#validate_cached!' do
       context 'when the path is not a cookbook' do
-        before { File.stub(:cookbook?).and_return(false) }
+        before { CookbookOmnifetch.stub(:cookbook?).and_return(false) }
 
         it 'raises an error' do
           expect {
@@ -52,7 +52,7 @@ module CookbookOmnifetch
         end
 
         before do
-          File.stub(:cookbook?).and_return(true)
+          CookbookOmnifetch.stub(:cookbook?).and_return(true)
           MockCachedCookbook.stub(:from_path).and_return(cookbook)
         end
 
