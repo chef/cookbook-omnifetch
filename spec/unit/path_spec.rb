@@ -3,13 +3,13 @@ require 'cookbook-omnifetch/path'
 
 module CookbookOmnifetch
   describe PathLocation do
-    let(:berksfile) { double('berksfile', filepath: __FILE__) }
+    let(:relative_paths_root) { File.dirname(__FILE__) }
     let(:constraint) { double('constraint', satisfies?: true) }
     let(:dependency) do
       double('dependency',
         name: 'nginx',
         version_constraint: constraint,
-        berksfile: berksfile,
+        relative_paths_root: relative_paths_root
       )
     end
     let(:path) { fixtures_path.join('cookbooks', 'example_cookbook') }
@@ -45,7 +45,7 @@ module CookbookOmnifetch
 
     describe '#expanded_path' do
       it 'returns the expanded path, relative to the Berksfile' do
-        absolute_path = Pathname.new(File.expand_path(relative_path, File.dirname(berksfile.filepath)))
+        absolute_path = Pathname.new(File.expand_path(relative_path, relative_paths_root))
         expect(subject.expanded_path).to eq(absolute_path)
       end
     end
