@@ -38,7 +38,12 @@ module CookbookOmnifetch
     # @return [Pathname]
     #   the relative path relative to the target
     def relative_path
-      @relative_path ||= expanded_path.relative_path_from(Pathname.new(File.dirname(dependency.berksfile.filepath)))
+      # TODO: this requires Berkshelf::Dependency to provide a delegate (ish) method that does
+      #
+      # def relative_paths_root
+      #   File.dirname(berksfile.filepath)
+      # end
+      @relative_path ||= expanded_path.relative_path_from(Pathname.new(dependency.relative_paths_root))
     end
 
     # The fully expanded path of this cookbook on disk, relative to the
@@ -46,7 +51,12 @@ module CookbookOmnifetch
     #
     # @return [Pathname]
     def expanded_path
-      @expanded_path ||= Pathname.new File.expand_path(options[:path], File.dirname(dependency.berksfile.filepath))
+      # TODO: this requires Berkshelf::Dependency to provide a delegate (ish) method that does
+      #
+      # def relative_paths_root
+      #   File.dirname(berksfile.filepath)
+      # end
+      @expanded_path ||= Pathname.new File.expand_path(options[:path], dependency.relative_paths_root)
     end
 
     def ==(other)
