@@ -118,6 +118,19 @@ module CookbookOmnifetch
       out
     end
 
+    # The path where this cookbook would live in the store, if it were
+    # installed.
+    #
+    # @return [Pathname, nil]
+    def install_path
+      CookbookOmnifetch.storage_path
+        .join(cache_key)
+    end
+
+    def cache_key
+      "#{dependency.name}-#{revision}"
+    end
+
     protected
 
     # The short ref (if one was given).
@@ -157,15 +170,6 @@ module CookbookOmnifetch
     # @return [Boolean]
     def cached?
       cache_path.exist?
-    end
-
-    # The path where this cookbook would live in the store, if it were
-    # installed.
-    #
-    # @return [Pathname, nil]
-    def install_path
-      CookbookOmnifetch.storage_path
-        .join("#{dependency.name}-#{revision}")
     end
 
     # The path where this git repository is cached.

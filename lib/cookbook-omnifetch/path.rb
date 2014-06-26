@@ -31,6 +31,10 @@ module CookbookOmnifetch
       !!options[:metadata]
     end
 
+    def install_path
+      relative_path
+    end
+
     # Return this PathLocation's path relative to the associated Berksfile. It
     # is actually the path reative to the associated Berksfile's parent
     # directory.

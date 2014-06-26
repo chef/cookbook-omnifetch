@@ -76,6 +76,14 @@ module CookbookOmnifetch
       end
     end
 
+    describe "#cache_key" do
+
+      it "concatenates the name and revision" do
+        subject.stub(:revision).and_return("abcdef123456")
+        expect(subject.cache_key).to eq("bacon-abcdef123456")
+      end
+    end
+
     describe '#installed?' do
       it 'returns false when there is no revision' do
         subject.stub(:revision).and_return(nil)
