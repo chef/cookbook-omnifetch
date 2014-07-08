@@ -35,6 +35,14 @@ module CookbookOmnifetch
         "#cached_cookbook must be implemented on #{self.class.name}!"
     end
 
+    # A representation of this location suitable for a lockfile, given as a Hash
+    #
+    # @return [Hash]
+    def lock_data
+      raise AbstractFunction,
+        "#to_lock must be implemented on #{self.class.name}!"
+    end
+
     # The lockfile representation of this location.
     #
     # @return [string]

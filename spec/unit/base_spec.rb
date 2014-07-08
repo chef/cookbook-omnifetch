@@ -32,6 +32,12 @@ module CookbookOmnifetch
       end
     end
 
+    describe '#lock_data' do
+      it 'is an abstract function' do
+        expect { subject.lock_data }.to raise_error(AbstractFunction)
+      end
+    end
+
     describe '#validate_cached!' do
       context 'when the path is not a cookbook' do
         before { CookbookOmnifetch.stub(:cookbook?).and_return(false) }

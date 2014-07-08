@@ -92,6 +92,17 @@ module CookbookOmnifetch
       end
     end
 
+    describe '#lock_data' do
+      it 'includes the path relative to the Berksfile' do
+        expect(subject.lock_data).to eq({ "path" => relative_path.to_s })
+      end
+
+      it 'includes the metadata attribute' do
+        subject.stub(:metadata?).and_return(true)
+        expect(subject.lock_data).to eq({ "path" => relative_path.to_s, "metadata" => true })
+      end
+    end
+
     describe '#to_s' do
       it 'uses the relative path' do
         expect(subject.to_s).to eq("source at #{relative_path}")

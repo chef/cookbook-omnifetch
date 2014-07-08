@@ -69,6 +69,13 @@ module CookbookOmnifetch
       other.relative_path == relative_path
     end
 
+    def lock_data
+      out = {}
+      out["path"] = relative_path.to_s
+      out["metadata"] = true if metadata?
+      out
+    end
+
     def to_lock
       out =  "    path: #{relative_path}\n"
       out << "    metadata: true\n" if metadata?

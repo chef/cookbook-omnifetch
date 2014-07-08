@@ -108,6 +108,17 @@ module CookbookOmnifetch
       end
     end
 
+    def lock_data
+      out = {}
+      out["git"] = uri
+      out["revision"] = revision
+      out["ref"] = shortref if shortref
+      out["branch"] = branch if branch
+      out["tag"] = tag if tag
+      out["rel"] = rel if rel
+      out
+    end
+
     def to_lock
       out =  "    git: #{uri}\n"
       out << "    revision: #{revision}\n"

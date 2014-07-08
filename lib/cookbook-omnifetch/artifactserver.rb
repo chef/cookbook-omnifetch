@@ -88,6 +88,13 @@ module CookbookOmnifetch
         "#cached_cookbook must be implemented on #{self.class.name}!"
     end
 
+    def lock_data
+      out = {}
+      out["artifactserver"] = uri
+      out["version"] = cookbook_version
+      out
+    end
+
     # The lockfile representation of this location.
     #
     # @return [string]

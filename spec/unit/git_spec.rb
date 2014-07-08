@@ -240,6 +240,39 @@ module CookbookOmnifetch
       end
     end
 
+    describe '#lock_data' do
+      let(:full_lock_data) do
+        {
+          "git" => "https://repo.com",
+          "revision" => "defjkl123456",
+          "ref" => "abc123",
+          "branch" => "ham",
+          "tag" => "v1.2.3",
+          "rel" => "hi"
+        }
+      end
+
+      it 'includes all the information' do
+        expect(subject.lock_data).to eq(full_lock_data)
+      end
+
+      it 'does not include the branch if missing' do
+        subject.stub(:branch).and_return(nil)
+        expect(subject.lock_data).to_not have_key('branch')
+      end
+
+      it 'does not include the tag if missing' do
+        subject.stub(:tag).and_return(nil)
+        expect(subject.lock_data).to_not have_key('tag')
+      end
+
+      it 'does not include the rel if missing' do
+        subject.stub(:rel).and_return(nil)
+        expect(subject.lock_data).to_not have_key('rel')
+      end
+    end
+
+
     describe '#git' do
       before { described_class.send(:public, :git) }
 
