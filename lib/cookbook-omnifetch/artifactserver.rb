@@ -39,21 +39,17 @@ module CookbookOmnifetch
     # @return [void]
     def install
       FileUtils.mkdir_p(cache_root) unless cache_root.exist?
+
+      http = http_client(uri)
+      http.streaming_request(nil) do |tempfile|
+        tempfile.close
+        # TODO: What are the ACLs supposed to be?  Windows might or might not
+        # recalculate your ACLs based on how the move was accomplished.
+        FileUtils.mv(tempfile.path, cache_path)
+      end
+
       FileUtils.mkdir_p(staging_root) unless staging_root.exist?
-
       Dir.mktmpdir(nil, staging_root) do |staging_dir|
-        http = http_client(uri)
-        http.streaming_request(nil) do |tempfile|
-          tempfile.close
-          # TODO: What are the ACLs supposed to be?  Windows might or might not
-          # recalculate your ACLs based on how the move was accomplished.
-          staging_tgz_path = File.join(staging_dir, "#{cache_key}.tgz")
-          # Might be atomic?
-          FileUtils.mv(tempfile.path, staging_tgz_path)
-          # Probably is atomic.
-          FileUtils.mv(staging_tgz_path, cache_path)
-        end
-
         Zlib::GzipReader.open(cache_path) do |gz_file|
           tar = Archive::Tar::Minitar::Input.new(gz_file)
           tar.each do |e|
@@ -97,8 +93,8 @@ module CookbookOmnifetch
 
     def lock_data
       out = {}
-      out["artifactserver"] = uri
-      out["version"] = cookbook_version
+      out['artifactserver'] = uri
+      out['version'] = cookbook_version
       out
     end
 
@@ -112,7 +108,7 @@ module CookbookOmnifetch
 
 
     def ==(other)
-      raise "TODO"
+      raise 'TODO'
       other.is_a?(GitLocation) &&
       other.uri == uri &&
       other.branch == branch &&
@@ -131,12 +127,13 @@ module CookbookOmnifetch
     end
 
     # The path where tarballs are downloaded to and unzipped.  On certain platforms
-    # *cough* Windows *cough*, you have a better chance of getting an atomic move
-    # if your temporary working directory is on the same device/volume as the
-    # destination.  To support this, we use a staging directory located under the
-    # cache path under the rather mild assumption that everything under the cache
-    # path is going to be on one device.  Do not create anything under this directory
-    # that isn't randomly named and remember to release your files once you are done.
+    # you have a better chance of getting an atomic move if your temporary working
+    # directory is on the same device/volume as the  destination.  To support this,
+    # we use a staging directory located under the cache path under the rather mild
+    # assumption that everything under the cache path is going to be on one device.
+    #
+    # Do not create anything under this directory that isn't randomly named and
+    # remember to release your files once you are done.
     #
     # @return [Pathname]
     def staging_root
