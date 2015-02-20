@@ -16,7 +16,7 @@ module CookbookOmnifetch
 
     let(:options) { {artifactserver: url, version: cookbook_version } }
 
-    subject(:public_repo_location) { ArtifactserverLocation.new(dependency, options) }
+    subject(:public_repo_location) { described_class.new(dependency, options) }
 
     it "has a URI" do
       expect(public_repo_location.uri).to eq(url)
@@ -55,6 +55,60 @@ module CookbookOmnifetch
         "version" => "1.5.23"
       }
       expect(public_repo_location.lock_data).to eq(expected_data)
+    end
+
+    context "when asked to install a new cookbook" do
+
+      let(:http_client) { double("Http Client") }
+
+      let(:test_root) { Dir.mktmpdir(nil) }
+
+      let(:storage_path) { File.join(test_root, "storage") }
+
+      let(:cache_path) { File.join(test_root, "cache") }
+
+      let(:cookbook_fixtures_path) { fixtures_path.join('cookbooks') }
+
+      let(:cookbook_name) { "example_cookbook" }
+
+      let(:cookbook_version) { "0.5.0" }
+
+      let(:cookbook_tarball_handle) do
+        gz_file_name = File.join(test_root, 'input.gz')
+        Zlib::GzipWriter.open(gz_file_name) do |gz|
+          # Minitar writes the full paths provided and doesn't seem to have a way to
+          # remove prefixes.  So we chdir like barbarians.
+          Dir.chdir(cookbook_fixtures_path) do
+            Archive::Tar::Minitar.pack(cookbook_name, gz)
+          end
+        end
+        File.open(gz_file_name)
+      end
+
+      let(:cookbook_files) { %w". .. .gitignore .kitchen.yml Berksfile Berksfile.lock metadata.rb README.md recipes" }
+
+      before do
+        allow(CookbookOmnifetch).to receive(:storage_path).and_return(Pathname.new(storage_path))
+        allow(CookbookOmnifetch).to receive(:cache_path).and_return(cache_path)
+        FileUtils.mkdir_p(storage_path)
+      end
+
+      after do
+        FileUtils.rm_r(test_root)
+      end
+
+      it "installs the cookbook to the desired install path" do
+        expect(public_repo_location).to receive(:http_client).and_return(http_client)
+        expect(cookbook_tarball_handle).to receive(:close).and_call_original
+        expect(http_client).to receive(:streaming_request).with(nil).and_yield(cookbook_tarball_handle)
+        expect(public_repo_location).to receive(:validate_cached!)
+
+        public_repo_location.install
+
+        expect(File).to exist(public_repo_location.cache_path)
+        expect(Dir).to exist(public_repo_location.install_path)
+        expect(Dir.entries(public_repo_location.install_path)).to match_array(cookbook_files)
+      end
     end
   end
 end

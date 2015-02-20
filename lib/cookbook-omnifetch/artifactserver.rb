@@ -46,7 +46,8 @@ module CookbookOmnifetch
         FileUtils.mv(tempfile.path, cache_path)
       end
 
-      Dir.mktmpdir do |staging_dir|
+      FileUtils.mkdir_p(staging_root) unless staging_root.exist?
+      Dir.mktmpdir(nil, staging_root) do |staging_dir|
         Zlib::GzipReader.open(cache_path) do |gz_file|
           tar = Archive::Tar::Minitar::Input.new(gz_file)
           tar.each do |e|
@@ -90,8 +91,8 @@ module CookbookOmnifetch
 
     def lock_data
       out = {}
-      out["artifactserver"] = uri
-      out["version"] = cookbook_version
+      out['artifactserver'] = uri
+      out['version'] = cookbook_version
       out
     end
 
@@ -105,7 +106,7 @@ module CookbookOmnifetch
 
 
     def ==(other)
-      raise "TODO"
+      raise 'TODO'
       other.is_a?(GitLocation) &&
       other.uri == uri &&
       other.branch == branch &&
@@ -114,8 +115,27 @@ module CookbookOmnifetch
       other.rel == rel
     end
 
+    # The path where all pristine tarballs from an artifactserver are held.
+    # Tarballs are moved/swapped into this location once they have been staged
+    # in a co-located staging directory.
+    #
+    # @return [Pathname]
     def cache_root
       Pathname.new(CookbookOmnifetch.cache_path).join('.cache', 'artifactserver')
+    end
+
+    # The path where tarballs are downloaded to and unzipped.  On certain platforms
+    # you have a better chance of getting an atomic move if your temporary working
+    # directory is on the same device/volume as the  destination.  To support this,
+    # we use a staging directory located under the cache path under the rather mild
+    # assumption that everything under the cache path is going to be on one device.
+    #
+    # Do not create anything under this directory that isn't randomly named and
+    # remember to release your files once you are done.
+    #
+    # @return [Pathname]
+    def staging_root
+      Pathname.new(CookbookOmnifetch.cache_path).join('.cache_tmp', 'artifactserver')
     end
 
     # The path where the pristine tarball is cached
