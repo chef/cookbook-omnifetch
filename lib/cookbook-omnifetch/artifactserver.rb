@@ -43,8 +43,6 @@ module CookbookOmnifetch
       http = http_client(uri)
       http.streaming_request(nil) do |tempfile|
         tempfile.close
-        # TODO: What are the ACLs supposed to be?  Windows might or might not
-        # recalculate your ACLs based on how the move was accomplished.
         FileUtils.mv(tempfile.path, cache_path)
       end
 
