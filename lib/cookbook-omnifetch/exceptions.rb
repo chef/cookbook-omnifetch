@@ -50,6 +50,7 @@ module CookbookOmnifetch
     #   the path to the thing that is not a cookbook
     def initialize(path)
       @path = File.expand_path(path) rescue path
+      super(to_s)
     end
 
     def to_s
@@ -68,6 +69,7 @@ module CookbookOmnifetch
     def initialize(dependency, cached_cookbook)
       @dependency      = dependency
       @cached_cookbook = cached_cookbook
+      super(to_s)
     end
 
     def to_s
@@ -85,6 +87,7 @@ module CookbookOmnifetch
     def initialize(dependency, cached_cookbook)
       @dependency      = dependency
       @cached_cookbook = cached_cookbook
+      super(to_s)
     end
 
     def to_s
@@ -98,7 +101,7 @@ module CookbookOmnifetch
       out << "\n"
       out << "NOTE: If you do not explicitly set the 'name' attribute in the "
       out << "metadata, the name of the directory will be used instead. This "
-      out << "is often a cause of confusion for dependency solving."
+      out << "is often a cause of confusion for dependency solving.\n"
       out
     end
   end
