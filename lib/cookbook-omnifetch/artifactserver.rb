@@ -50,7 +50,10 @@ module CookbookOmnifetch
       Dir.mktmpdir(nil, staging_root) do |staging_dir|
         Zlib::GzipReader.open(cache_path) do |gz_file|
           tar = Archive::Tar::Minitar::Input.new(gz_file)
-          tar.each do |e|
+            # Minitar incorrectly handles archives created with BSD tar.
+            # Deal with the fallout.
+            tar.extract_entry(staging_dir, e) \
+              unless /PaxHeader/.match(e.full_name)
             tar.extract_entry(staging_dir, e)
           end
         end
