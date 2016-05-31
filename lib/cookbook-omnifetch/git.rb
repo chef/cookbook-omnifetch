@@ -163,7 +163,7 @@ module CookbookOmnifetch
     # @raise [String]
     #   the +$stdout+ from the command
     def git(command, error = true)
-      unless CookbookOmnifetch.which('git') || CookbookOmnifetch.which('git.exe')
+      unless CookbookOmnifetch.which('git') || CookbookOmnifetch.which('git.exe') || CookbookOmnifetch.which('git.bat')
         raise GitNotInstalled.new
       end
 
