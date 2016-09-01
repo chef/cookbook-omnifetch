@@ -1,8 +1,6 @@
 require 'cookbook-omnifetch/base'
 
-# TODO: probably this should be hidden behind DI for http stuff
-require 'zlib'
-require 'archive/tar/minitar'
+require 'mixlib/archive'
 require 'tmpdir'
 
 module CookbookOmnifetch
@@ -48,12 +46,8 @@ module CookbookOmnifetch
 
       FileUtils.mkdir_p(staging_root) unless staging_root.exist?
       Dir.mktmpdir(nil, staging_root) do |staging_dir|
-        Zlib::GzipReader.open(cache_path) do |gz_file|
-          tar = Archive::Tar::Minitar::Input.new(gz_file)
-          tar.each do |e|
-            tar.extract_entry(staging_dir, e)
-          end
-        end
+        Mixlib::Archive.new(cache_path).extract(staging_dir, perms: false,
+                                                ignore: /^\./)
         staged_cookbook_path = File.join(staging_dir, cookbook_name)
         validate_cached!(staged_cookbook_path)
         FileUtils.mv(staged_cookbook_path, install_path)
