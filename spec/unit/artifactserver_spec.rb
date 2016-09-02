@@ -1,5 +1,7 @@
 require 'spec_helper'
 require 'cookbook-omnifetch/artifactserver'
+require 'zlib'
+require 'archive/tar/minitar'
 
 module CookbookOmnifetch
   describe ArtifactserverLocation do
