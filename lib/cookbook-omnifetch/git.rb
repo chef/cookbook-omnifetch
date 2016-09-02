@@ -1,7 +1,7 @@
-require 'tmpdir'
-require 'cookbook-omnifetch'
-require 'cookbook-omnifetch/base'
-require 'cookbook-omnifetch/exceptions'
+require "tmpdir"
+require "cookbook-omnifetch"
+require "cookbook-omnifetch/base"
+require "cookbook-omnifetch/exceptions"
 
 module CookbookOmnifetch
   class GitLocation < BaseLocation
@@ -23,7 +23,7 @@ module CookbookOmnifetch
       @rel      = options[:rel]
 
       # The revision to parse
-      @rev_parse = options[:ref] || options[:branch] || options[:tag] || 'master'
+      @rev_parse = options[:ref] || options[:branch] || options[:tag] || "master"
     end
 
     # @see BaseLoation#installed?
@@ -41,26 +41,26 @@ module CookbookOmnifetch
 
       if cached?
         Dir.chdir(cache_path) do
-          git %|fetch --force --tags #{uri} "refs/heads/*:refs/heads/*"|
+          git %{fetch --force --tags #{uri} "refs/heads/*:refs/heads/*"}
         end
       else
-        git %|clone #{uri} "#{cache_path}" --bare --no-hardlinks|
+        git %{clone #{uri} "#{cache_path}" --bare --no-hardlinks}
       end
 
       Dir.chdir(cache_path) do
-        @revision ||= git %|rev-parse #{@rev_parse}|
+        @revision ||= git %{rev-parse #{@rev_parse}}
       end
 
       # Clone into a scratch directory for validations
-      git %|clone --no-checkout "#{cache_path}" "#{scratch_path}"|
+      git %{clone --no-checkout "#{cache_path}" "#{scratch_path}"}
 
       # Make sure the scratch directory is up-to-date and account for rel paths
       Dir.chdir(scratch_path) do
-        git %|fetch --force --tags "#{cache_path}"|
-        git %|reset --hard #{@revision}|
+        git %{fetch --force --tags "#{cache_path}"}
+        git %{reset --hard #{@revision}}
 
         if rel
-          git %|filter-branch --subdirectory-filter "#{rel}" --force|
+          git %{filter-branch --subdirectory-filter "#{rel}" --force}
         end
       end
 
@@ -72,7 +72,7 @@ module CookbookOmnifetch
       FileUtils.cp_r(scratch_path, install_path)
 
       # Remove the git history
-      FileUtils.rm_rf(File.join(install_path, '.git')) 
+      FileUtils.rm_rf(File.join(install_path, ".git"))
 
       install_path.chmod(0777 & ~File.umask)
     ensure
@@ -91,11 +91,11 @@ module CookbookOmnifetch
 
     def ==(other)
       other.is_a?(GitLocation) &&
-      other.uri == uri &&
-      other.branch == branch &&
-      other.tag == tag &&
-      other.shortref == shortref &&
-      other.rel == rel
+        other.uri == uri &&
+        other.branch == branch &&
+        other.tag == tag &&
+        other.shortref == shortref &&
+        other.rel == rel
     end
 
     def to_s
@@ -163,11 +163,11 @@ module CookbookOmnifetch
     # @raise [String]
     #   the +$stdout+ from the command
     def git(command, error = true)
-      unless CookbookOmnifetch.which('git') || CookbookOmnifetch.which('git.exe') || CookbookOmnifetch.which('git.bat')
+      unless CookbookOmnifetch.which("git") || CookbookOmnifetch.which("git.exe") || CookbookOmnifetch.which("git.bat")
         raise GitNotInstalled.new
       end
 
-      response = CookbookOmnifetch.shell_out_class.shell_out(%|git #{command}|)
+      response = CookbookOmnifetch.shell_out_class.shell_out(%{git #{command}})
 
       if error && !response.success?
         raise GitCommandError.new(command, cache_path, response.stderr)
@@ -188,7 +188,7 @@ module CookbookOmnifetch
     # @return [Pathname]
     def cache_path
       Pathname.new(CookbookOmnifetch.cache_path)
-        .join('.cache', 'git', Digest::SHA1.hexdigest(uri))
+        .join(".cache", "git", Digest::SHA1.hexdigest(uri))
     end
   end
 end

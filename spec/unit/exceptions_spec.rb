@@ -1,5 +1,5 @@
-require 'spec_helper'
-require 'cookbook-omnifetch/exceptions'
+require "spec_helper"
+require "cookbook-omnifetch/exceptions"
 
 module CookbookOmnifetch
   describe "Exceptions" do

@@ -1,7 +1,7 @@
-require 'spec_helper'
-require 'cookbook-omnifetch/artifactserver'
-require 'zlib'
-require 'archive/tar/minitar'
+require "spec_helper"
+require "cookbook-omnifetch/artifactserver"
+require "zlib"
+require "archive/tar/minitar"
 
 module CookbookOmnifetch
   describe ArtifactserverLocation do
@@ -16,7 +16,7 @@ module CookbookOmnifetch
 
     let(:url) { "https://supermarket.getchef.com/api/v1/cookbooks/nginx/versions/1.5.23/download" }
 
-    let(:options) { {artifactserver: url, version: cookbook_version } }
+    let(:options) { { artifactserver: url, version: cookbook_version } }
 
     subject(:public_repo_location) { described_class.new(dependency, options) }
 
@@ -37,7 +37,7 @@ module CookbookOmnifetch
     end
 
     it "sets the install location as the cache path plus cache key" do
-      expected_install_path = Pathname.new('~/.berkshelf/cookbooks').expand_path.join("nginx-1.5.23-supermarket.getchef.com")
+      expected_install_path = Pathname.new("~/.berkshelf/cookbooks").expand_path.join("nginx-1.5.23-supermarket.getchef.com")
       expect(public_repo_location.install_path).to eq(expected_install_path)
     end
 
@@ -54,7 +54,7 @@ module CookbookOmnifetch
     it "provides lock data as a Hash" do
       expected_data = {
         "artifactserver" => url,
-        "version" => "1.5.23"
+        "version" => "1.5.23",
       }
       expect(public_repo_location.lock_data).to eq(expected_data)
     end
@@ -69,14 +69,14 @@ module CookbookOmnifetch
 
       let(:cache_path) { File.join(test_root, "cache") }
 
-      let(:cookbook_fixtures_path) { fixtures_path.join('cookbooks') }
+      let(:cookbook_fixtures_path) { fixtures_path.join("cookbooks") }
 
       let(:cookbook_name) { "example_cookbook" }
 
       let(:cookbook_version) { "0.5.0" }
 
       let(:cookbook_tarball_handle) do
-        gz_file_name = File.join(test_root, 'input.gz')
+        gz_file_name = File.join(test_root, "input.gz")
         Zlib::GzipWriter.open(gz_file_name) do |gz|
           # Minitar writes the full paths provided and doesn't seem to have a way to
           # remove prefixes.  So we chdir like barbarians.
@@ -87,7 +87,7 @@ module CookbookOmnifetch
         File.open(gz_file_name)
       end
 
-      let(:cookbook_files) { %w". .. .gitignore .kitchen.yml Berksfile Berksfile.lock metadata.rb README.md recipes" }
+      let(:cookbook_files) { %w{. .. .gitignore .kitchen.yml Berksfile Berksfile.lock metadata.rb README.md recipes} }
 
       before do
         allow(CookbookOmnifetch).to receive(:storage_path).and_return(Pathname.new(storage_path))
@@ -114,4 +114,3 @@ module CookbookOmnifetch
     end
   end
 end
-

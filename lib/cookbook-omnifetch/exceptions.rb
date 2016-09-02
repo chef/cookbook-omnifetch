@@ -20,9 +20,9 @@ module CookbookOmnifetch
 
   class GitNotInstalled < GitError
     def initialize
-      super 'You need to install Git before you can download ' \
-        'cookbooks from git repositories. For more information, please ' \
-        'see the Git docs: http://git-scm.org.'
+      super "You need to install Git before you can download " \
+        "cookbooks from git repositories. For more information, please " \
+        "see the Git docs: http://git-scm.org."
     end
   end
 

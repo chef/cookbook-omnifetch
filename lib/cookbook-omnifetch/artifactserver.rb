@@ -1,7 +1,7 @@
-require 'cookbook-omnifetch/base'
+require "cookbook-omnifetch/base"
 
-require 'mixlib/archive'
-require 'tmpdir'
+require "mixlib/archive"
+require "tmpdir"
 
 module CookbookOmnifetch
 
@@ -47,7 +47,7 @@ module CookbookOmnifetch
       FileUtils.mkdir_p(staging_root) unless staging_root.exist?
       Dir.mktmpdir(nil, staging_root) do |staging_dir|
         Mixlib::Archive.new(cache_path).extract(staging_dir, perms: false,
-                                                ignore: /^\./)
+                                                             ignore: /^\./)
         staged_cookbook_path = File.join(staging_dir, cookbook_name)
         validate_cached!(staged_cookbook_path)
         FileUtils.mv(staged_cookbook_path, install_path)
@@ -85,8 +85,8 @@ module CookbookOmnifetch
 
     def lock_data
       out = {}
-      out['artifactserver'] = uri
-      out['version'] = cookbook_version
+      out["artifactserver"] = uri
+      out["version"] = cookbook_version
       out
     end
 
@@ -98,24 +98,13 @@ module CookbookOmnifetch
         "#to_lock must be implemented on #{self.class.name}!"
     end
 
-
-    def ==(other)
-      raise 'TODO'
-      other.is_a?(GitLocation) &&
-      other.uri == uri &&
-      other.branch == branch &&
-      other.tag == tag &&
-      other.shortref == shortref &&
-      other.rel == rel
-    end
-
     # The path where all pristine tarballs from an artifactserver are held.
     # Tarballs are moved/swapped into this location once they have been staged
     # in a co-located staging directory.
     #
     # @return [Pathname]
     def cache_root
-      Pathname.new(CookbookOmnifetch.cache_path).join('.cache', 'artifactserver')
+      Pathname.new(CookbookOmnifetch.cache_path).join(".cache", "artifactserver")
     end
 
     # The path where tarballs are downloaded to and unzipped.  On certain platforms
@@ -129,7 +118,7 @@ module CookbookOmnifetch
     #
     # @return [Pathname]
     def staging_root
-      Pathname.new(CookbookOmnifetch.cache_path).join('.cache_tmp', 'artifactserver')
+      Pathname.new(CookbookOmnifetch.cache_path).join(".cache_tmp", "artifactserver")
     end
 
     # The path where the pristine tarball is cached

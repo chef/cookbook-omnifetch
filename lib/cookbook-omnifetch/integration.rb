@@ -1,4 +1,4 @@
-require 'cookbook-omnifetch/exceptions'
+require "cookbook-omnifetch/exceptions"
 
 module CookbookOmnifetch
 
@@ -28,7 +28,6 @@ module CookbookOmnifetch
           value
         end
       end
-
     end
 
     configurable :cache_path

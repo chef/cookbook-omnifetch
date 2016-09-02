@@ -1,4 +1,4 @@
-require 'cookbook-omnifetch/base'
+require "cookbook-omnifetch/base"
 
 module CookbookOmnifetch
   class PathLocation < BaseLocation
@@ -65,8 +65,8 @@ module CookbookOmnifetch
 
     def ==(other)
       other.is_a?(PathLocation) &&
-      other.metadata? == metadata? &&
-      other.relative_path == relative_path
+        other.metadata? == metadata? &&
+        other.relative_path == relative_path
     end
 
     def lock_data

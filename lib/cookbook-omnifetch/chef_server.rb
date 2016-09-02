@@ -1,4 +1,4 @@
-require 'cookbook-omnifetch/base'
+require "cookbook-omnifetch/base"
 
 module CookbookOmnifetch
   class CookbookMetadata
@@ -12,7 +12,7 @@ module CookbookOmnifetch
       :attributes,
       :files,
       :templates,
-      :root_files
+      :root_files,
     ].freeze
 
     def initialize(metadata)
@@ -98,7 +98,7 @@ module CookbookOmnifetch
     #
     # @return [Pathname]
     def staging_root
-      Pathname.new(CookbookOmnifetch.cache_path).join('.cache_tmp', 'artifactserver')
+      Pathname.new(CookbookOmnifetch.cache_path).join(".cache_tmp", "artifactserver")
     end
 
     def staging_path
