@@ -1,4 +1,4 @@
-require 'cookbook-omnifetch/exceptions'
+require "cookbook-omnifetch/exceptions"
 
 module CookbookOmnifetch
   class BaseLocation

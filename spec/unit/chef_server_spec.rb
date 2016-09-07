@@ -4,10 +4,10 @@ require "cookbook-omnifetch/chef_server.rb"
 module CookbookOmnifetch
   METADATA = {
     "recipes" => [
-      {"name"=>"default.rb", "path"=>"recipes/default.rb", "checksum"=>"a6be794cdd2eb44d38fdf17f792a0d0d", "specificity"=>"default", "url"=>"https://example.com/recipes/default.rb"},
+      { "name" => "default.rb", "path" => "recipes/default.rb", "checksum" => "a6be794cdd2eb44d38fdf17f792a0d0d", "specificity" => "default", "url" => "https://example.com/recipes/default.rb" },
     ],
-    "root_files"=>[
-      {"name"=>"metadata.rb", "path"=>"metadata.rb", "checksum"=>"5b346119e5e41ab99500608decac8dca", "specificity"=>"default", "url"=>"https://example.com/metadata.rb"},
+    "root_files" => [
+      { "name" => "metadata.rb", "path" => "metadata.rb", "checksum" => "5b346119e5e41ab99500608decac8dca", "specificity" => "default", "url" => "https://example.com/metadata.rb" },
     ],
   }
 
@@ -41,9 +41,9 @@ module CookbookOmnifetch
     let(:cookbook_fixture_path) { fixtures_path.join("cookbooks/example_cookbook") }
 
     let(:remote_path) { File.join(test_root, "remote") }
-    let(:options) { {version: cookbook_version, http_client: http_client } }
+    let(:options) { { version: cookbook_version, http_client: http_client } }
 
-    let(:cookbook_files) { %w". ..  metadata.rb recipes" }
+    let(:cookbook_files) { %w{. ..  metadata.rb recipes} }
     subject(:chef_server_location) { described_class.new(dependency, options) }
 
     before do
@@ -70,6 +70,6 @@ module CookbookOmnifetch
 
       expect(Dir).to exist(chef_server_location.install_path)
       expect(Dir.entries(chef_server_location.install_path)).to match_array(cookbook_files)
-      end
+    end
   end
 end

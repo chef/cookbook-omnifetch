@@ -1,9 +1,9 @@
-require 'cookbook-omnifetch'
+require "cookbook-omnifetch"
 
 module Fixtures
 
   def fixtures_path
-    spec_root.join('fixtures')
+    spec_root.join("fixtures")
   end
 
   def spec_root
@@ -34,11 +34,10 @@ RSpec.configure do |config|
 
   config.before(:suite) do
     CookbookOmnifetch.configure do |c|
-      c.cache_path = File.expand_path('~/.berkshelf')
-      c.storage_path = Pathname.new(File.expand_path('~/.berkshelf/cookbooks'))
+      c.cache_path = File.expand_path("~/.berkshelf")
+      c.storage_path = Pathname.new(File.expand_path("~/.berkshelf/cookbooks"))
       c.shell_out_class = MockShellOut
       c.cached_cookbook_class = MockCachedCookbook
     end
   end
 end
-

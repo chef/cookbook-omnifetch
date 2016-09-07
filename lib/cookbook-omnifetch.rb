@@ -7,7 +7,6 @@ require "cookbook-omnifetch/github"
 require "cookbook-omnifetch/path"
 require "cookbook-omnifetch/artifactserver"
 
-
 module CookbookOmnifetch
 
   # Create a new instance of a Location class given dependency and options.
@@ -42,8 +41,8 @@ module CookbookOmnifetch
   def self.which(executable)
     if File.file?(executable) && File.executable?(executable)
       executable
-    elsif ENV['PATH']
-      path = ENV['PATH'].split(File::PATH_SEPARATOR).find do |p|
+    elsif ENV["PATH"]
+      path = ENV["PATH"].split(File::PATH_SEPARATOR).find do |p|
         File.executable?(File.join(p, executable))
       end
       path && File.expand_path(executable, path)

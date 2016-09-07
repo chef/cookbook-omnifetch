@@ -1,7 +1,8 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
 gemspec
 
-group :test do
-  gem 'minitar'
+group :development, :test do
+  gem "minitar"
+  gem "chefstyle"
 end
