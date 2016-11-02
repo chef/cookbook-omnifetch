@@ -73,14 +73,13 @@ CookbookOmnifetch.init(dependency, path: "~/chef-cookbooks/apache2")
 
 ## Contributing
 
-As with other Chef Software projects, in order to contribute you need to
-[agree to the contributor license agreement.](https://supermarket.getchef.com/become-a-contributor)
+For information on contributing to this project, see https://github.com/chef/chef/blob/master/CONTRIBUTING.md
 
 After that:
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
+3. Commit your changes (`git commit -asm 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
 
