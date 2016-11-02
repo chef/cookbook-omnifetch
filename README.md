@@ -1,7 +1,7 @@
 # CookbookOmnifetch
 
 `CookbookOmnifetch` provides library code for fetching Chef cookbooks
-from an artifact server (usually http://supermarket.getchef.com),
+from an artifact server (usually https://supermarket.chef.io),
 git/github, a local path, or a chef-server to a local cache for
 developement.
 
