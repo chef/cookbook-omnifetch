@@ -19,7 +19,7 @@ module CookbookOmnifetch
     end
   end
 
-  describe ChefserverLocation do
+  describe ChefServerLocation do
 
     let(:http_client) { double("Http Client") }
 
@@ -38,10 +38,12 @@ module CookbookOmnifetch
     let(:cookbook_name) { "example" }
     let(:cookbook_version) { "0.5.0" }
 
+    let(:url) { "https://chef.example.com/organizations/example" }
+
     let(:cookbook_fixture_path) { fixtures_path.join("cookbooks/example_cookbook") }
 
     let(:remote_path) { File.join(test_root, "remote") }
-    let(:options) { { version: cookbook_version, http_client: http_client } }
+    let(:options) { { chef_server: url, version: cookbook_version, http_client: http_client } }
 
     let(:cookbook_files) { %w{. ..  metadata.rb recipes} }
     subject(:chef_server_location) { described_class.new(dependency, options) }
@@ -58,6 +60,18 @@ module CookbookOmnifetch
       FileUtils.rm_r(test_root)
     end
 
+    it "has a URI" do
+      expect(chef_server_location.uri).to eq(url)
+    end
+
+    it "has a cache key containing the site URI and version" do
+      expect(chef_server_location.cache_key).to eq("example-0.5.0")
+    end
+
+    it "has an exact version" do
+      expect(chef_server_location.cookbook_version).to eq("0.5.0")
+    end
+
     it "installs the cookbook to the desired install path" do
       expect(http_client).to receive(:get).with("/cookbooks/example/0.5.0").and_return(METADATA)
       expect(http_client).to receive(:streaming_request).twice do |url, &block|
@@ -71,5 +85,14 @@ module CookbookOmnifetch
       expect(Dir).to exist(chef_server_location.install_path)
       expect(Dir.entries(chef_server_location.install_path)).to match_array(cookbook_files)
     end
+
+    it "provides lock data as a Hash" do
+      expected_data = {
+        "chef_server" => url,
+        "version" => "0.5.0",
+      }
+      expect(chef_server_location.lock_data).to eq(expected_data)
+    end
+
   end
 end
