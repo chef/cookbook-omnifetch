@@ -124,7 +124,7 @@ module CookbookOmnifetch
     # @return [Class, nil]
     def klass_from_options(options)
       options.each do |key, _|
-        id = key.to_s.capitalize
+        id = key.to_s.split("_").map(&:capitalize).join
 
         begin
           return CookbookOmnifetch.const_get("#{id}Location")

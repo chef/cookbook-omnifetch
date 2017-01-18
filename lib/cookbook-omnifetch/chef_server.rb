@@ -30,15 +30,16 @@ module CookbookOmnifetch
     end
   end
 
-  class ChefserverLocation < BaseLocation
+  class ChefServerLocation < BaseLocation
 
     attr_reader :cookbook_version
+    attr_reader :uri
 
     def initialize(dependency, options = {})
       super
       @cookbook_version = options[:version]
       @http_client = options[:http_client]
-      @uri ||= options[:artifactserver]
+      @uri ||= options[:chef_server]
     end
 
     def repo_host
@@ -81,6 +82,10 @@ module CookbookOmnifetch
     # @return [Pathname, nil]
     def install_path
       @install_path ||= CookbookOmnifetch.storage_path.join(cache_key)
+    end
+
+    def lock_data
+      { "chef_server" => uri, "version" => cookbook_version }
     end
 
     def cache_key
