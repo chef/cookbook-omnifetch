@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^spec/})
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "mixlib-archive", "~> 0.2"
+  spec.add_dependency "mixlib-archive", "~> 0.4"
 
   spec.add_development_dependency "rake", "~> 10.3"
   spec.add_development_dependency "rspec", "~> 3.0"

@@ -46,8 +46,7 @@ module CookbookOmnifetch
 
       FileUtils.mkdir_p(staging_root) unless staging_root.exist?
       Dir.mktmpdir(nil, staging_root) do |staging_dir|
-        Mixlib::Archive.new(cache_path).extract(staging_dir, perms: false,
-                                                             ignore: /^\./)
+        Mixlib::Archive.new(cache_path).extract(staging_dir, perms: false)
         staged_cookbook_path = File.join(staging_dir, cookbook_name)
         validate_cached!(staged_cookbook_path)
         FileUtils.mv(staged_cookbook_path, install_path)
