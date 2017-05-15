@@ -33,7 +33,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "mixlib-archive", "~> 0.4"
 
-  spec.add_development_dependency "rake", "~> 10.3"
+  spec.add_development_dependency "rake"
   spec.add_development_dependency "rspec", "~> 3.0"
 
 end

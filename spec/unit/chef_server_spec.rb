@@ -45,7 +45,7 @@ module CookbookOmnifetch
     let(:remote_path) { File.join(test_root, "remote") }
     let(:options) { { chef_server: url, version: cookbook_version, http_client: http_client } }
 
-    let(:cookbook_files) { %w{. ..  metadata.rb recipes} }
+    let(:cookbook_files) { %w{. .. metadata.rb recipes} }
     subject(:chef_server_location) { described_class.new(dependency, options) }
 
     before do
