@@ -6,6 +6,7 @@ require "cookbook-omnifetch/git"
 require "cookbook-omnifetch/github"
 require "cookbook-omnifetch/path"
 require "cookbook-omnifetch/artifactserver"
+require "cookbook-omnifetch/artifactory"
 require "cookbook-omnifetch/chef_server"
 
 module CookbookOmnifetch
