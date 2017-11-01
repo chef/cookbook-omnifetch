@@ -31,6 +31,30 @@ module CookbookOmnifetch
       end
     end
 
+    class ThreadedJobQueue
+      def initialize
+        @queue = Queue.new
+        @lock = Mutex.new
+      end
+
+      def <<(job)
+        @queue << job
+      end
+
+      def process(concurrency = 10)
+        workers = (1..concurrency).map do
+          Thread.new do
+            loop do
+              fn = @queue.pop
+              fn.arity == 1 ? fn.call(@lock) : fn.call
+            end
+          end
+        end
+        workers.each { |worker| self << Thread.method(:exit) }
+        workers.each { |worker| worker.join }
+      end
+    end
+
     attr_reader :http_client
     attr_reader :url_path
     attr_reader :install_path
@@ -44,16 +68,28 @@ module CookbookOmnifetch
     def install
       FileUtils.mkdir_p(staging_root) unless staging_root.exist?
       md = http_client.get(url_path)
-      CookbookMetadata.new(md).files do |url, path|
-        stage = staging_path.join(path)
-        FileUtils.mkdir_p(File.dirname(stage))
 
-        http_client.streaming_request(url) do |tempfile|
-          tempfile.close
-          FileUtils.mv(tempfile.path, stage)
+      queue = ThreadedJobQueue.new
+
+      require 'benchmark'
+
+      count = 0
+      x = Benchmark.measure("sync time") do
+        CookbookMetadata.new(md).files do |url, path|
+          count += 1
+          queue << lambda do |lock|
+            stage = staging_path.join(path)
+            FileUtils.mkdir_p(File.dirname(stage))
+
+            raw_file = http_client.streaming_request(url)
+            FileUtils.mv(raw_file.path, stage)
+          end
         end
+        queue.process(10)
+        FileUtils.mv(staging_path, install_path)
       end
-      FileUtils.mv(staging_path, install_path)
+      p files: count
+      puts x
     end
 
     # The path where tarballs are downloaded to and unzipped.  On certain platforms
