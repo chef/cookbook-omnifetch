@@ -8,6 +8,7 @@ require "cookbook-omnifetch/path"
 require "cookbook-omnifetch/artifactserver"
 require "cookbook-omnifetch/artifactory"
 require "cookbook-omnifetch/chef_server"
+require "cookbook-omnifetch/chef_server_artifact"
 
 module CookbookOmnifetch
 
