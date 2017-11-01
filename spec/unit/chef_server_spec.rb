@@ -1,98 +1,72 @@
 require "spec_helper"
 require "cookbook-omnifetch/chef_server.rb"
 
-module CookbookOmnifetch
-  METADATA = {
-    "recipes" => [
-      { "name" => "default.rb", "path" => "recipes/default.rb", "checksum" => "a6be794cdd2eb44d38fdf17f792a0d0d", "specificity" => "default", "url" => "https://example.com/recipes/default.rb" },
-    ],
-    "root_files" => [
-      { "name" => "metadata.rb", "path" => "metadata.rb", "checksum" => "5b346119e5e41ab99500608decac8dca", "specificity" => "default", "url" => "https://example.com/metadata.rb" },
-    ],
-  }
+RSpec.describe CookbookOmnifetch::ChefServerLocation do
 
-  describe CookbookMetadata do
-    let(:cb_metadata) { CookbookMetadata.new(METADATA) }
+  let(:http_client) { double("Http Client") }
 
-    it "yields a set of paths and urls" do
-      expect { |b| cb_metadata.files(&b) }.to yield_successive_args(["https://example.com/recipes/default.rb", "recipes/default.rb"], ["https://example.com/metadata.rb", "metadata.rb"])
-    end
+  let(:test_root) { "/some/fake/path" }
+
+  let(:storage_path) { File.join(test_root, "storage") }
+
+  let(:dependency) { double("Dependency", name: cookbook_name) }
+
+  let(:cookbook_name) { "example" }
+
+  let(:cookbook_version) { "0.5.0" }
+
+  let(:url) { "https://chef.example.com/organizations/example" }
+
+  let(:options) { { chef_server: url, version: cookbook_version, http_client: http_client } }
+
+  subject(:chef_server_location) { described_class.new(dependency, options) }
+
+  before do
+    allow(CookbookOmnifetch).to receive(:storage_path).and_return(Pathname.new(storage_path))
   end
 
-  describe ChefServerLocation do
+  it "has a URI" do
+    expect(chef_server_location.uri).to eq(url)
+  end
 
-    let(:http_client) { double("Http Client") }
+  it "has an HTTP client" do
+    expect(chef_server_location.http_client).to eq(http_client)
+  end
 
-    let(:cb_metadata) { CookbookMetadata.new(METADATA) }
+  it "has a metadata_based_installer" do
+    installer = chef_server_location.installer
+    expect(installer).to be_a(CookbookOmnifetch::MetadataBasedInstaller)
+    expect(installer.http_client).to eq(http_client)
+    expect(installer.url_path).to eq("/cookbooks/example/0.5.0")
+    expect(installer.install_path.to_s).to eq(File.join(storage_path, "example-0.5.0"))
+  end
 
-    let(:test_root) { Dir.mktmpdir(nil) }
+  it "has a cache key containing the site URI and version" do
+    expect(chef_server_location.cache_key).to eq("example-0.5.0")
+  end
 
-    let(:storage_path) { File.join(test_root, "storage") }
+  it "has an exact version" do
+    expect(chef_server_location.cookbook_version).to eq("0.5.0")
+  end
 
-    let(:cache_path) { File.join(test_root, "cache") }
+  it "provides lock data as a Hash" do
+    expected_data = {
+      "chef_server" => url,
+      "version" => "0.5.0",
+    }
+    expect(chef_server_location.lock_data).to eq(expected_data)
+  end
 
-    let(:constraint) { double("Constraint") }
+  describe "when installing" do
 
-    let(:dependency) { double("Dependency", name: cookbook_name, constraint: constraint) }
+    let(:installer) { instance_double("CookbookOmnifetch::MetadataBasedInstaller") }
 
-    let(:cookbook_name) { "example" }
-    let(:cookbook_version) { "0.5.0" }
-
-    let(:url) { "https://chef.example.com/organizations/example" }
-
-    let(:cookbook_fixture_path) { fixtures_path.join("cookbooks/example_cookbook") }
-
-    let(:remote_path) { File.join(test_root, "remote") }
-    let(:options) { { chef_server: url, version: cookbook_version, http_client: http_client } }
-
-    let(:cookbook_files) { %w{. .. metadata.rb recipes} }
-    subject(:chef_server_location) { described_class.new(dependency, options) }
-
-    before do
-      allow(CookbookOmnifetch).to receive(:storage_path).and_return(Pathname.new(storage_path))
-      allow(CookbookOmnifetch).to receive(:cache_path).and_return(cache_path)
-      allow_any_instance_of(File).to receive(:close).and_return(true)
-      FileUtils.cp_r(cookbook_fixture_path, remote_path)
-      FileUtils.mkdir_p(storage_path)
-    end
-
-    after do
-      FileUtils.rm_r(test_root)
-    end
-
-    it "has a URI" do
-      expect(chef_server_location.uri).to eq(url)
-    end
-
-    it "has a cache key containing the site URI and version" do
-      expect(chef_server_location.cache_key).to eq("example-0.5.0")
-    end
-
-    it "has an exact version" do
-      expect(chef_server_location.cookbook_version).to eq("0.5.0")
-    end
-
-    it "installs the cookbook to the desired install path" do
-      expect(http_client).to receive(:get).with("/cookbooks/example/0.5.0").and_return(METADATA)
-      expect(http_client).to receive(:streaming_request).twice do |url, &block|
-        path = url.split("/", 4)[3]
-        path = File.join(remote_path, path)
-        block.call(File.open(path))
-      end
-
+    it "delegates to the MetadataBasedInstaller" do
+      allow(chef_server_location).to receive(:installer).and_return(installer)
+      expect(installer).to receive(:install)
       chef_server_location.install
-
-      expect(Dir).to exist(chef_server_location.install_path)
-      expect(Dir.entries(chef_server_location.install_path)).to match_array(cookbook_files)
-    end
-
-    it "provides lock data as a Hash" do
-      expected_data = {
-        "chef_server" => url,
-        "version" => "0.5.0",
-      }
-      expect(chef_server_location.lock_data).to eq(expected_data)
     end
 
   end
+
 end
