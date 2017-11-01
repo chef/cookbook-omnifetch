@@ -1,35 +1,14 @@
 require "cookbook-omnifetch/base"
+require "cookbook-omnifetch/metadata_based_installer"
 
 module CookbookOmnifetch
-  class CookbookMetadata
-
-    FILE_TYPES = [
-      :resources,
-      :providers,
-      :recipes,
-      :definitions,
-      :libraries,
-      :attributes,
-      :files,
-      :templates,
-      :root_files,
-    ].freeze
-
-    def initialize(metadata)
-      @metadata = metadata
-    end
-
-    def files(&block)
-      FILE_TYPES.each do |type|
-        next unless @metadata.has_key?(type.to_s)
-
-        @metadata[type.to_s].each do |file|
-          yield file["url"], file["path"]
-        end
-      end
-    end
-  end
-
+  # This location allows fetching from the `cookbook_artifacts/` API where Chef
+  # Server stores cookbooks for policyfile use when they're uploaded via `chef push`.
+  #
+  # End users likely won't have much use for this; it's intended to facilitate
+  # included policies when including a policy stored on a chef server and
+  # cookbooks cannot be installed from the original source based on the
+  # information in the included policy.
   class ChefServerArtifactLocation < BaseLocation
 
     attr_reader :cookbook_identifier
@@ -50,19 +29,16 @@ module CookbookOmnifetch
       dependency.name
     end
 
-    def install
-      FileUtils.mkdir_p(staging_root) unless staging_root.exist?
-      md = http_client.get("/cookbook_artifacts/#{cookbook_name}/#{cookbook_identifier}")
-      CookbookMetadata.new(md).files do |url, path|
-        stage = staging_path.join(path)
-        FileUtils.mkdir_p(File.dirname(stage))
+    def url_path
+      "/cookbook_artifacts/#{cookbook_name}/#{cookbook_identifier}"
+    end
 
-        http_client.streaming_request(url) do |tempfile|
-          tempfile.close
-          FileUtils.mv(tempfile.path, stage)
-        end
-      end
-      FileUtils.mv(staging_path, install_path)
+    def installer
+      MetadataBasedInstaller.new(http_client: http_client, url_path: url_path, install_path: install_path)
+    end
+
+    def install
+      installer.install
     end
 
     # Determine if this revision is installed.
