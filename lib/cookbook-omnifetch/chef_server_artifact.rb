@@ -68,22 +68,5 @@ module CookbookOmnifetch
       "#{dependency.name}-#{cookbook_identifier}"
     end
 
-    # The path where tarballs are downloaded to and unzipped.  On certain platforms
-    # you have a better chance of getting an atomic move if your temporary working
-    # directory is on the same device/volume as the  destination.  To support this,
-    # we use a staging directory located under the cache path under the rather mild
-    # assumption that everything under the cache path is going to be on one device.
-    #
-    # Do not create anything under this directory that isn't randomly named and
-    # remember to release your files once you are done.
-    #
-    # @return [Pathname]
-    def staging_root
-      Pathname.new(CookbookOmnifetch.cache_path).join(".cache_tmp", "artifactserver")
-    end
-
-    def staging_path
-      staging_root.join(cache_key)
-    end
   end
 end
