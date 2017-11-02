@@ -108,6 +108,22 @@ module CookbookOmnifetch
     integration.storage_path
   end
 
+  # Returns the number of threads that will be used when downloading cookbooks
+  # from a Chef Server. The default is 1.
+  #
+  # NOTE: This should only be changed if the `http_client` passed in to a
+  # ChefServerLocation or ChefServerArtifactLocation is thread-safe. In
+  # particular, the `Chef::ServerAPI` class is NOT THREAD SAFE. Chef Client uses
+  # thread-local storage to create one instance of `Chef::ServerAPI` per-thread
+  # when used in threaded code.
+  #
+  # When a properly thread-safe HTTP client is used, this can be configured to
+  # a larger value to reduce the time needed to download cookbooks from a Chef
+  # Server.
+  def self.chef_server_download_concurrency
+    integration.chef_server_download_concurrency
+  end
+
   # Returns true or false if the given path contains a Chef Cookbook
   #
   # @param [#to_s] path

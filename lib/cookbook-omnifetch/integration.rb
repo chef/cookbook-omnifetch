@@ -35,10 +35,15 @@ module CookbookOmnifetch
     configurable :shell_out_class
     configurable :cached_cookbook_class
 
+    # Number of threads to use when downloading from a Chef Server. See
+    # commentary in cookbook_omnifetch.rb
+    configurable :chef_server_download_concurrency
+
     def initialize
       self.class.configurables.each do |configurable|
         instance_variable_set("@#{configurable}".to_sym, NullValue.new)
       end
+      @chef_server_download_concurrency = 1
     end
 
   end

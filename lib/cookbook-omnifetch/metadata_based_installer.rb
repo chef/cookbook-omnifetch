@@ -1,3 +1,4 @@
+require "cookbook-omnifetch/threaded_job_queue"
 
 module CookbookOmnifetch
 
@@ -47,17 +48,24 @@ module CookbookOmnifetch
       FileUtils.rm_rf(staging_path) # ensure we have a clean dir, just in case
       FileUtils.mkdir_p(staging_root) unless staging_root.exist?
       md = http_client.get(url_path)
+
+      queue = ThreadedJobQueue.new
+
       CookbookMetadata.new(md).files do |url, path|
         stage = staging_path.join(path)
         FileUtils.mkdir_p(File.dirname(stage))
 
-        http_client.streaming_request(url) do |tempfile|
-          tempfile.close
-          FileUtils.mv(tempfile.path, stage)
+        queue << lambda do |_lock|
+          http_client.streaming_request(url) do |tempfile|
+            tempfile.close
+            FileUtils.mv(tempfile.path, stage)
+          end
         end
       end
+
+      queue.process(CookbookOmnifetch.chef_server_download_concurrency)
+
       FileUtils.mv(staging_path, install_path)
-      FileUtils.rm_rf(staging_path)
     end
 
     # The path where files are downloaded to.  On certain platforms you have a
