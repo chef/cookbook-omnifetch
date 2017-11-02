@@ -111,4 +111,3 @@ RSpec.describe CookbookOmnifetch::MetadataBasedInstaller do
   end
 
 end
-

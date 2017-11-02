@@ -75,8 +75,7 @@ module CookbookOmnifetch
     end
 
     def staging_cache_key
-      url_path.gsub(/[^[:alnum:]]/, '_')
+      url_path.gsub(/[^[:alnum:]]/, "_")
     end
   end
 end
-
