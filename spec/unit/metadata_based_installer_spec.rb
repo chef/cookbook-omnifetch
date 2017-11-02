@@ -65,6 +65,8 @@ RSpec.describe CookbookOmnifetch::MetadataBasedInstaller do
 
   let(:test_root) { Dir.mktmpdir(nil) }
 
+  let(:cache_path) { File.join(test_root, "cache") }
+
   let(:remote_path) { File.join(test_root, "remote") }
 
   let(:install_path) { File.join(test_root, "install_path") }
@@ -86,28 +88,50 @@ RSpec.describe CookbookOmnifetch::MetadataBasedInstaller do
   before do
     FileUtils.cp_r(cookbook_fixture_path, remote_path)
 
-    expect(http_client).to receive(:get).
-      with(url_path).
-      and_return(raw_metadata)
-    expect(http_client).to receive(:streaming_request).
-      with(recipe_url).
-      and_yield(recipe_filehandle)
-    expect(http_client).to receive(:streaming_request).
-      with(root_file_url).
-      and_yield(root_file_filehandle)
+    allow(CookbookOmnifetch).to receive(:cache_path).and_return(cache_path)
   end
 
   after do
     FileUtils.rm_r(test_root)
   end
 
-  it "installs the cookbook to the desired install path" do
-    expect(Dir).to_not exist(install_path)
+  it "stages the download to a randomized location" do
+    Kernel.srand(0)
+    expected_path = Pathname.new(cache_path).join(".cache_tmp/metadata-installer/_cookbooks_example_0_5_0_209652396")
 
-    installer.install
+    expect(installer.staging_path).to eq(expected_path)
 
-    expect(Dir).to exist(install_path)
-    expect(Dir.glob("#{install_path}/**/*")).to match_array(expected_installed_files)
+    next_installer = described_class.new(http_client: http_client,
+                                         url_path: url_path,
+                                         install_path: install_path)
+
+    next_expected_path = Pathname.new(cache_path).join(".cache_tmp/metadata-installer/_cookbooks_example_0_5_0_398764591")
+    expect(next_installer.staging_path).to eq(next_expected_path)
+  end
+
+  describe "installing the cookbook" do
+
+    before do
+      expect(http_client).to receive(:get).
+        with(url_path).
+        and_return(raw_metadata)
+      expect(http_client).to receive(:streaming_request).
+        with(recipe_url).
+        and_yield(recipe_filehandle)
+      expect(http_client).to receive(:streaming_request).
+        with(root_file_url).
+        and_yield(root_file_filehandle)
+    end
+
+    it "installs the cookbook to the desired install path" do
+      expect(Dir).to_not exist(install_path)
+
+      installer.install
+
+      expect(Dir).to exist(install_path)
+      expect(Dir.glob("#{install_path}/**/*")).to match_array(expected_installed_files)
+    end
+
   end
 
 end
