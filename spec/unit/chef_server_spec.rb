@@ -19,6 +19,8 @@ RSpec.describe CookbookOmnifetch::ChefServerLocation do
 
   let(:options) { { chef_server: url, version: cookbook_version, http_client: http_client } }
 
+  let(:expected_install_path) { File.join(storage_path, "example-0.5.0") }
+
   subject(:chef_server_location) { described_class.new(dependency, options) }
 
   before do
@@ -38,7 +40,7 @@ RSpec.describe CookbookOmnifetch::ChefServerLocation do
     expect(installer).to be_a(CookbookOmnifetch::MetadataBasedInstaller)
     expect(installer.http_client).to eq(http_client)
     expect(installer.url_path).to eq("/cookbooks/example/0.5.0")
-    expect(installer.install_path.to_s).to eq(File.join(storage_path, "example-0.5.0"))
+    expect(installer.install_path.to_s).to eq(expected_install_path)
   end
 
   it "has a cache key containing the site URI and version" do
@@ -57,6 +59,10 @@ RSpec.describe CookbookOmnifetch::ChefServerLocation do
     expect(chef_server_location.lock_data).to eq(expected_data)
   end
 
+  it "returns a cached cookbook object" do
+    expect(MockCachedCookbook).to receive(:from_path).with(Pathname.new(expected_install_path))
+    chef_server_location.cached_cookbook
+  end
 
   context "when using the default chef server HTTP client" do
 

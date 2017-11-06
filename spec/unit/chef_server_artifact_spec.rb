@@ -21,6 +21,8 @@ RSpec.describe CookbookOmnifetch::ChefServerArtifactLocation do
 
   let(:expected_cache_key) { "example-467dc855408ce8b74f991c5dc2fd72a6aa369b60" }
 
+  let(:expected_install_path) { File.join(storage_path, expected_cache_key) }
+
   subject(:chef_server_artifact_location) { described_class.new(dependency, options) }
 
   before do
@@ -40,7 +42,7 @@ RSpec.describe CookbookOmnifetch::ChefServerArtifactLocation do
     expect(installer).to be_a(CookbookOmnifetch::MetadataBasedInstaller)
     expect(installer.http_client).to eq(http_client)
     expect(installer.url_path).to eq("/cookbook_artifacts/example/467dc855408ce8b74f991c5dc2fd72a6aa369b60")
-    expect(installer.install_path.to_s).to eq(File.join(storage_path, expected_cache_key))
+    expect(installer.install_path.to_s).to eq(expected_install_path)
   end
 
   it "has a cache key containing the site URI and version" do
@@ -57,6 +59,11 @@ RSpec.describe CookbookOmnifetch::ChefServerArtifactLocation do
       "identifier" => cookbook_identifier,
     }
     expect(chef_server_artifact_location.lock_data).to eq(expected_data)
+  end
+
+  it "returns a cached cookbook object" do
+    expect(MockCachedCookbook).to receive(:from_path).with(Pathname.new(expected_install_path))
+    chef_server_artifact_location.cached_cookbook
   end
 
   context "when using the default chef server HTTP client" do

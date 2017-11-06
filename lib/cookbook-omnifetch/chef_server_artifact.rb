@@ -68,6 +68,11 @@ module CookbookOmnifetch
       "#{dependency.name}-#{cookbook_identifier}"
     end
 
+    # @see BaseLocation#cached_cookbook
+    def cached_cookbook
+      @cached_cookbook ||= CookbookOmnifetch.cached_cookbook_class.from_path(install_path)
+    end
+
     private
 
     def default_chef_server_http_client
