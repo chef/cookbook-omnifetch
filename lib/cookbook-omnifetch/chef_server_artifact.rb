@@ -61,7 +61,7 @@ module CookbookOmnifetch
     end
 
     def lock_data
-      { "chef_server" => uri, "server_identifier" => cookbook_identifier }
+      { "chef_server_artifact" => uri, "identifier" => cookbook_identifier }
     end
 
     def cache_key

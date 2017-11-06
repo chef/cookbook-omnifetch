@@ -53,8 +53,8 @@ RSpec.describe CookbookOmnifetch::ChefServerArtifactLocation do
 
   it "provides lock data as a Hash" do
     expected_data = {
-      "chef_server" => url,
-      "server_identifier" => cookbook_identifier,
+      "chef_server_artifact" => url,
+      "identifier" => cookbook_identifier,
     }
     expect(chef_server_artifact_location.lock_data).to eq(expected_data)
   end
