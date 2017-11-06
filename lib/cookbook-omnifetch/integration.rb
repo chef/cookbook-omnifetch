@@ -39,6 +39,11 @@ module CookbookOmnifetch
     # commentary in cookbook_omnifetch.rb
     configurable :chef_server_download_concurrency
 
+    # HTTP client object that will be used for source option `http_client` by
+    # `ChefServerLocation` and `ChefServerArtifactLocation` if not explicitly
+    # passed
+    configurable :default_chef_server_http_client
+
     def initialize
       self.class.configurables.each do |configurable|
         instance_variable_set("@#{configurable}".to_sym, NullValue.new)

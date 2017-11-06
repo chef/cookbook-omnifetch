@@ -124,6 +124,10 @@ module CookbookOmnifetch
     integration.chef_server_download_concurrency
   end
 
+  def self.default_chef_server_http_client
+    integration.default_chef_server_http_client
+  end
+
   # Returns true or false if the given path contains a Chef Cookbook
   #
   # @param [#to_s] path

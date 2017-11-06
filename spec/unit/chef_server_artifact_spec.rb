@@ -59,6 +59,35 @@ RSpec.describe CookbookOmnifetch::ChefServerArtifactLocation do
     expect(chef_server_artifact_location.lock_data).to eq(expected_data)
   end
 
+  context "when using the default chef server HTTP client" do
+
+    let(:options) { { chef_server_artifact: url, identifier: cookbook_identifier } }
+
+    let(:default_http_client) { double("Http Client") }
+
+    before do
+      CookbookOmnifetch.integration.default_chef_server_http_client = default_http_client
+    end
+
+    after do
+      CookbookOmnifetch.integration.default_chef_server_http_client = nil
+    end
+
+    it "uses the default http client for requests" do
+      expect(chef_server_artifact_location.http_client).to eq(default_http_client)
+    end
+
+    context "and an http client is explicitly passed" do
+
+      let(:options) { { chef_server: url, identifier: cookbook_identifier, http_client: http_client } }
+
+      it "uses the explicitly passed client instead of the default" do
+        expect(chef_server_artifact_location.http_client).to eq(http_client)
+      end
+
+    end
+  end
+
   describe "when installing" do
 
     let(:installer) { instance_double("CookbookOmnifetch::MetadataBasedInstaller") }

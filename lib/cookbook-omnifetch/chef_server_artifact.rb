@@ -17,7 +17,7 @@ module CookbookOmnifetch
     def initialize(dependency, options = {})
       super
       @cookbook_identifier = options[:identifier]
-      @http_client = options[:http_client]
+      @http_client = options[:http_client] || default_chef_server_http_client
       @uri ||= options[:chef_server_artifact]
     end
 
@@ -66,6 +66,12 @@ module CookbookOmnifetch
 
     def cache_key
       "#{dependency.name}-#{cookbook_identifier}"
+    end
+
+    private
+
+    def default_chef_server_http_client
+      CookbookOmnifetch.default_chef_server_http_client
     end
 
   end
