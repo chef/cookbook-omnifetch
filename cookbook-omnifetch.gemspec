@@ -23,8 +23,8 @@ Gem::Specification.new do |spec|
     "dan@getchef.com",
   ]
   spec.summary       = %q{Library code to fetch Chef cookbooks from a variety of sources to a local cache}
-  spec.homepage      = "http://www.getchef.com/"
-  spec.license       = "Apache 2.0"
+  spec.homepage      = "https://github.com/chef/cookbook-omnifetch"
+  spec.license       = "Apache-2.0"
 
   spec.files         = `git ls-files -z`.split("\x0").grep(/LICENSE|^lib/)
   spec.require_paths = ["lib"]
