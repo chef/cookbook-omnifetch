@@ -60,17 +60,17 @@ module CookbookOmnifetch
       end
 
       let(:message) do
-        <<-EOM
-In your Berksfile, you have:
+        <<~EOM
+          In your Berksfile, you have:
 
-  cookbook 'apt'
+            cookbook 'apt'
 
-But that cookbook is actually named 'apt'
+          But that cookbook is actually named 'apt'
 
-This can cause potentially unwanted side-effects in the future.
+          This can cause potentially unwanted side-effects in the future.
 
-NOTE: If you do not explicitly set the 'name' attribute in the metadata, the name of the directory will be used instead. This is often a cause of confusion for dependency solving.
-EOM
+          NOTE: If you do not explicitly set the 'name' attribute in the metadata, the name of the directory will be used instead. This is often a cause of confusion for dependency solving.
+        EOM
       end
 
       it "creates an informative error in #message" do

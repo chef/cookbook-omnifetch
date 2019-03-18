@@ -112,15 +112,15 @@ RSpec.describe CookbookOmnifetch::MetadataBasedInstaller do
   describe "installing the cookbook" do
 
     before do
-      expect(http_client).to receive(:get).
-        with(url_path).
-        and_return(raw_metadata)
-      expect(http_client).to receive(:streaming_request).
-        with(recipe_url).
-        and_yield(recipe_filehandle)
-      expect(http_client).to receive(:streaming_request).
-        with(root_file_url).
-        and_yield(root_file_filehandle)
+      expect(http_client).to receive(:get)
+        .with(url_path)
+        .and_return(raw_metadata)
+      expect(http_client).to receive(:streaming_request)
+        .with(recipe_url)
+        .and_yield(recipe_filehandle)
+      expect(http_client).to receive(:streaming_request)
+        .with(root_file_url)
+        .and_yield(root_file_filehandle)
     end
 
     it "installs the cookbook to the desired install path" do
