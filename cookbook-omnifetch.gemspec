@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
     "michael.ivey@riotgames.com",
     "justin@justincampbell.me",
     "sethvargo@gmail.com",
-    "dan@getchef.com",
+    "dan@chef.io",
   ]
   spec.summary       = %q{Library code to fetch Chef cookbooks from a variety of sources to a local cache}
   spec.homepage      = "https://github.com/chef/cookbook-omnifetch"
