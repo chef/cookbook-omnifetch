@@ -14,7 +14,7 @@ module CookbookOmnifetch
 
     let(:dependency) { double("Dependency", name: cookbook_name, constraint: constraint) }
 
-    let(:url) { "https://supermarket.getchef.com/api/v1/cookbooks/nginx/versions/1.5.23/download" }
+    let(:url) { "https://supermarket.chef.io/api/v1/cookbooks/nginx/versions/1.5.23/download" }
 
     let(:options) { { artifactserver: url, version: cookbook_version } }
 
@@ -25,7 +25,7 @@ module CookbookOmnifetch
     end
 
     it "has a repo host" do
-      expect(public_repo_location.repo_host).to eq("supermarket.getchef.com")
+      expect(public_repo_location.repo_host).to eq("supermarket.chef.io")
     end
 
     it "has an exact version" do
@@ -33,11 +33,11 @@ module CookbookOmnifetch
     end
 
     it "has a cache key containing the site URI and version" do
-      expect(public_repo_location.cache_key).to eq("nginx-1.5.23-supermarket.getchef.com")
+      expect(public_repo_location.cache_key).to eq("nginx-1.5.23-supermarket.chef.io")
     end
 
     it "sets the install location as the cache path plus cache key" do
-      expected_install_path = Pathname.new("~/.berkshelf/cookbooks").expand_path.join("nginx-1.5.23-supermarket.getchef.com")
+      expected_install_path = Pathname.new("~/.berkshelf/cookbooks").expand_path.join("nginx-1.5.23-supermarket.chef.io")
       expect(public_repo_location.install_path).to eq(expected_install_path)
     end
 

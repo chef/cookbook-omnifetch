@@ -20,18 +20,16 @@ Gem::Specification.new do |spec|
     "michael.ivey@riotgames.com",
     "justin@justincampbell.me",
     "sethvargo@gmail.com",
-    "dan@getchef.com",
+    "dan@chef.io",
   ]
   spec.summary       = %q{Library code to fetch Chef cookbooks from a variety of sources to a local cache}
-  spec.homepage      = "http://www.getchef.com/"
-  spec.license       = "Apache 2.0"
+  spec.homepage      = "https://github.com/chef/cookbook-omnifetch"
+  spec.license       = "Apache-2.0"
 
-  spec.files         = `git ls-files -z`.split("\x0")
-  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
-  spec.test_files    = spec.files.grep(%r{^spec/})
+  spec.files         = `git ls-files -z`.split("\x0").grep(/LICENSE|^lib/)
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "mixlib-archive", "~> 0.4"
+  spec.add_dependency "mixlib-archive", ">= 0.4", "< 2.0"
 
   spec.add_development_dependency "rake"
   spec.add_development_dependency "rspec", "~> 3.0"

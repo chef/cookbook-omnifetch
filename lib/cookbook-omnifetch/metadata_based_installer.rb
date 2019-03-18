@@ -23,7 +23,7 @@ module CookbookOmnifetch
 
       def files(&block)
         FILE_TYPES.each do |type|
-          next unless @metadata.has_key?(type.to_s)
+          next unless @metadata.key?(type.to_s)
 
           @metadata[type.to_s].each do |file|
             yield file["url"], file["path"]

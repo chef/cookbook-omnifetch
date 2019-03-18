@@ -30,7 +30,7 @@ module CookbookOmnifetch
   #
   # @return [~BaseLocation, nil]
   def self.init(dependency, options = {})
-    if klass = klass_from_options(options)
+    if klass = klass_from_options(options) # rubocop: disable Lint/AssignmentInCondition
       klass.new(dependency, options)
     else
       nil
@@ -135,7 +135,7 @@ module CookbookOmnifetch
   #
   # @return [Boolean]
   def self.cookbook?(path)
-    File.exists?(File.join(path, "metadata.json")) || File.exists?(File.join(path, "metadata.rb"))
+    File.exist?(File.join(path, "metadata.json")) || File.exist?(File.join(path, "metadata.rb"))
   end
 
   class << self
