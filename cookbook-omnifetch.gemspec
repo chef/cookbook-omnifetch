@@ -26,9 +26,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = "http://www.getchef.com/"
   spec.license       = "Apache 2.0"
 
-  spec.files         = `git ls-files -z`.split("\x0")
-  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
-  spec.test_files    = spec.files.grep(%r{^spec/})
+  spec.files         = `git ls-files -z`.split("\x0").grep(/LICENSE|^lib/)
   spec.require_paths = ["lib"]
 
   spec.add_dependency "mixlib-archive", ">= 0.4", "< 2.0"
