@@ -1,7 +1,5 @@
 require "spec_helper"
 require "cookbook-omnifetch/artifactory"
-require "zlib"
-require "archive/tar/minitar"
 
 module CookbookOmnifetch
   describe ArtifactoryLocation do

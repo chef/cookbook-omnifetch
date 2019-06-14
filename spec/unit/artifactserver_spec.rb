@@ -1,7 +1,5 @@
 require "spec_helper"
 require "cookbook-omnifetch/artifactserver"
-require "zlib"
-require "archive/tar/minitar"
 
 module CookbookOmnifetch
   describe ArtifactserverLocation do
@@ -77,12 +75,8 @@ module CookbookOmnifetch
 
       let(:cookbook_tarball_handle) do
         gz_file_name = File.join(test_root, "input.gz")
-        Zlib::GzipWriter.open(gz_file_name) do |gz|
-          # Minitar writes the full paths provided and doesn't seem to have a way to
-          # remove prefixes.  So we chdir like barbarians.
-          Dir.chdir(cookbook_fixtures_path) do
-            Archive::Tar::Minitar.pack(cookbook_name, gz)
-          end
+        Dir.chdir(cookbook_fixtures_path) do
+          Mixlib::Archive.archive_directory(cookbook_name, gz_file_name)
         end
         File.open(gz_file_name)
       end
