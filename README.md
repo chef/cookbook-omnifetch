@@ -1,4 +1,5 @@
 # CookbookOmnifetch
+[![Gem Version](https://badge.fury.io/rb/cookbook-omnifetch.svg)](https://badge.fury.io/rb/cookbook-omnifetch)
 
 `CookbookOmnifetch` provides library code for fetching Chef cookbooks
 from an artifact server (usually https://supermarket.chef.io),
@@ -87,4 +88,3 @@ After that:
 
 This code was initially extracted from Berkshelf. Thanks to the
 Berkshelf core teams and contributors.
-
