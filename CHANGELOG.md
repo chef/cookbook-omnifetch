@@ -13,6 +13,7 @@
 #### Merged Pull Requests
 - Add boilerplate files and resolve chefstyle warnings [#26](https://github.com/chef/cookbook-omnifetch/pull/26) ([tas50](https://github.com/tas50)) <!-- 0.8.2 -->
 - Wire up in Expeditor / Buildkite for release and testing [#25](https://github.com/chef/cookbook-omnifetch/pull/25) ([tas50](https://github.com/tas50)) <!-- 0.8.1 -->
+- Fix 'chef install foo.lock.json' cookbook loading from Artifactory [#24](https://github.com/chef/cookbook-omnifetch/pull/24) ([mattray](https://github.com/mattray)) <!-- n/a -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
