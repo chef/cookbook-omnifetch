@@ -1,5 +1,6 @@
 # CookbookOmnifetch
 [![Gem Version](https://badge.fury.io/rb/cookbook-omnifetch.svg)](https://badge.fury.io/rb/cookbook-omnifetch)
+[![Build status](https://badge.buildkite.com/3f3f8dc5b6c82b74fba32adaad641d004f622b304525d6386c.svg?branch=master)](https://buildkite.com/chef-oss/chef-cookbook-omnifetch-master-verify)
 
 **Umbrella Project**: [Chef Workstation](https://github.com/chef/chef-oss-practices/blob/master/projects/chef-workstation.md)
 
