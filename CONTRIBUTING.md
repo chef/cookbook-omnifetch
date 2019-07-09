@@ -1,0 +1,1 @@
+Please refer to CONTRIBUTING.md for the `chef` project: https://github.com/chef/chef/blob/master/CONTRIBUTING.md".
