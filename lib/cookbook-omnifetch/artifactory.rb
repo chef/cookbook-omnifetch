@@ -15,7 +15,12 @@ module CookbookOmnifetch
       super
       @uri ||= options[:artifactory]
       @cookbook_version = options[:version]
-      @http_client = options[:http_client]
+      if options[:http_client]
+        @http_client = options[:http_client]
+      else
+        headers = { "X-Jfrog-Art-API" => Chef::Config.artifactory_api_key || ENV["ARTIFACTORY_API_KEY"] }
+        @http_client = Chef::HTTP::Simple.new(uri, headers: headers)
+      end
     end
 
     def repo_host
@@ -93,13 +98,13 @@ module CookbookOmnifetch
         "#to_lock must be implemented on #{self.class.name}!"
     end
 
-    # The path where all pristine tarballs from an artifactserver are held.
+    # The path where all pristine tarballs from an artifactory are held.
     # Tarballs are moved/swapped into this location once they have been staged
     # in a co-located staging directory.
     #
     # @return [Pathname]
     def cache_root
-      Pathname.new(CookbookOmnifetch.cache_path).join(".cache", "artifactserver")
+      Pathname.new(CookbookOmnifetch.cache_path).join(".cache", "artifactory")
     end
 
     # The path where tarballs are downloaded to and unzipped.  On certain platforms
@@ -113,7 +118,7 @@ module CookbookOmnifetch
     #
     # @return [Pathname]
     def staging_root
-      Pathname.new(CookbookOmnifetch.cache_path).join(".cache_tmp", "artifactserver")
+      Pathname.new(CookbookOmnifetch.cache_path).join(".cache_tmp", "artifactory")
     end
 
     # The path where the pristine tarball is cached
