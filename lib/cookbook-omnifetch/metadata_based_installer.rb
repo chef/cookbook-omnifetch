@@ -5,17 +5,17 @@ module CookbookOmnifetch
   class MetadataBasedInstaller
     class CookbookMetadata
 
-      FILE_TYPES = [
-        :resources,
-        :providers,
-        :recipes,
-        :definitions,
-        :libraries,
-        :attributes,
-        :files,
-        :templates,
-        :root_files,
-      ].freeze
+      FILE_TYPES = %i{
+        resources
+        providers
+        recipes
+        definitions
+        libraries
+        attributes
+        files
+        templates
+        root_files
+      }.freeze
 
       def initialize(metadata)
         @metadata = metadata
