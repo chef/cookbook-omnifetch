@@ -40,7 +40,7 @@ module CookbookOmnifetch
         end
       end
       workers.each { |worker| self << Thread.method(:exit) }
-      workers.each { |worker| worker.join }
+      workers.each(&:join)
     end
   end
 end

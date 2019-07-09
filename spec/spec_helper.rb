@@ -25,7 +25,7 @@ RSpec.configure do |config|
     c.syntax = [:expect]
   end
   config.mock_with :rspec do |c|
-    c.syntax = [:expect, :should]
+    c.syntax = %i{expect should}
   end
 
   config.filter_run focus: true

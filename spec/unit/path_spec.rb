@@ -9,8 +9,7 @@ module CookbookOmnifetch
       double("dependency",
         name: "nginx",
         version_constraint: constraint,
-        relative_paths_root: relative_paths_root
-      )
+        relative_paths_root: relative_paths_root)
     end
     let(:path) { fixtures_path.join("cookbooks", "example_cookbook") }
     let(:relative_path) { Pathname.new("../fixtures/cookbooks/example_cookbook") }
