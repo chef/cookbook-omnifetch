@@ -1,14 +1,14 @@
-require "cookbook-omnifetch/version"
-require "cookbook-omnifetch/integration"
+require_relative "cookbook-omnifetch/version"
+require_relative "cookbook-omnifetch/integration"
 
-require "cookbook-omnifetch/base"
-require "cookbook-omnifetch/git"
-require "cookbook-omnifetch/github"
-require "cookbook-omnifetch/path"
-require "cookbook-omnifetch/artifactserver"
-require "cookbook-omnifetch/artifactory"
-require "cookbook-omnifetch/chef_server"
-require "cookbook-omnifetch/chef_server_artifact"
+require_relative "cookbook-omnifetch/base"
+require_relative "cookbook-omnifetch/git"
+require_relative "cookbook-omnifetch/github"
+require_relative "cookbook-omnifetch/path"
+require_relative "cookbook-omnifetch/artifactserver"
+require_relative "cookbook-omnifetch/artifactory"
+require_relative "cookbook-omnifetch/chef_server"
+require_relative "cookbook-omnifetch/chef_server_artifact"
 
 module CookbookOmnifetch
 

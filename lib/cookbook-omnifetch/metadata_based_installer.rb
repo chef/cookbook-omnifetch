@@ -1,4 +1,4 @@
-require "cookbook-omnifetch/threaded_job_queue"
+require_relative "threaded_job_queue"
 
 module CookbookOmnifetch
 

@@ -1,5 +1,5 @@
-require "cookbook-omnifetch/base"
-require "cookbook-omnifetch/metadata_based_installer"
+require_relative "base"
+require_relative "metadata_based_installer"
 
 module CookbookOmnifetch
   class ChefServerLocation < BaseLocation

@@ -1,4 +1,4 @@
-require "cookbook-omnifetch/exceptions"
+require_relative "exceptions"
 
 module CookbookOmnifetch
 
