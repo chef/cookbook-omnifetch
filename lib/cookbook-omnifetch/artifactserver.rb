@@ -1,4 +1,4 @@
-require "cookbook-omnifetch/base"
+require_relative "base"
 
 require "mixlib/archive"
 require "tmpdir"

@@ -1,4 +1,4 @@
-require "cookbook-omnifetch/base"
+require_relative "base"
 
 module CookbookOmnifetch
   class PathLocation < BaseLocation

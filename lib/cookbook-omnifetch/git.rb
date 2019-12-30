@@ -1,7 +1,7 @@
 require "tmpdir"
-require "cookbook-omnifetch"
-require "cookbook-omnifetch/base"
-require "cookbook-omnifetch/exceptions"
+require_relative "../cookbook-omnifetch"
+require_relative "base"
+require_relative "exceptions"
 
 module CookbookOmnifetch
   class GitLocation < BaseLocation
