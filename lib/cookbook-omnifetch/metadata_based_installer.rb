@@ -15,6 +15,7 @@ module CookbookOmnifetch
         files
         templates
         root_files
+        all_files
       }.freeze
 
       def initialize(metadata)
