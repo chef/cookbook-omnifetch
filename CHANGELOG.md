@@ -1,25 +1,22 @@
 # Change Log
 
-<!-- latest_release 0.10.0 -->
+<!-- latest_release -->
+<!-- latest_release -->
+
+<!-- release_rollup -->
+<!-- release_rollup -->
+
+<!-- latest_stable_release -->
 ## [v0.10.0](https://github.com/chef/cookbook-omnifetch/tree/v0.10.0) (2020-07-15)
 
 #### Merged Pull Requests
 - add manifestv2 support [#31](https://github.com/chef/cookbook-omnifetch/pull/31) ([lamont-granquist](https://github.com/lamont-granquist))
-<!-- latest_release -->
-
-<!-- release_rollup since=0.9.1 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- add manifestv2 support [#31](https://github.com/chef/cookbook-omnifetch/pull/31) ([lamont-granquist](https://github.com/lamont-granquist)) <!-- 0.10.0 -->
-<!-- release_rollup -->
-
 <!-- latest_stable_release -->
+
 ## [v0.9.1](https://github.com/chef/cookbook-omnifetch/tree/v0.9.1) (2020-02-12)
 
 #### Merged Pull Requests
 - Switch from require to require_relative [#28](https://github.com/chef/cookbook-omnifetch/pull/28) ([tas50](https://github.com/tas50))
-<!-- latest_stable_release -->
 
 ## [v0.9.0](https://github.com/chef/cookbook-omnifetch/tree/v0.9.0) (2019-07-09)
 
