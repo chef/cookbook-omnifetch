@@ -1,4 +1,4 @@
-require "tmpdir"
+require "tmpdir" unless defined?(Dir.mktmpdir)
 require_relative "../cookbook-omnifetch"
 require_relative "base"
 require_relative "exceptions"

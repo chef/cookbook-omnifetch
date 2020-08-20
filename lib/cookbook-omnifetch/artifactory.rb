@@ -1,7 +1,7 @@
 require_relative "base"
 
-require "mixlib/archive"
-require "tmpdir"
+require "mixlib/archive" unless defined?(Mixlib::Archive)
+require "tmpdir" unless defined?(Dir.mktmpdir)
 
 module CookbookOmnifetch
 
