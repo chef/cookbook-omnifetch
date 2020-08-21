@@ -1,6 +1,6 @@
 require "spec_helper"
 require "cookbook-omnifetch/artifactserver"
-require "zlib"
+require "zlib" unless defined?(Zlib)
 require "archive/tar/minitar"
 
 module CookbookOmnifetch
