@@ -6,10 +6,10 @@ RSpec.shared_context "sample_metadata" do
   let(:raw_metadata) do
     {
       "recipes" => [
-        { "name" => "default.rb", "path" => "recipes/default.rb", "checksum" => "a6be794cdd2eb44d38fdf17f792a0d0d", "specificity" => "default", "url" => "https://example.com/recipes/default.rb" },
+        { "name" => "default.rb", "path" => "recipes/default.rb", "checksum" => "da97c94bb6acb2b7900cbf951654fea3", "specificity" => "default", "url" => "https://example.com/recipes/default.rb" },
       ],
       "root_files" => [
-        { "name" => "metadata.rb", "path" => "metadata.rb", "checksum" => "5b346119e5e41ab99500608decac8dca", "specificity" => "default", "url" => "https://example.com/metadata.rb" },
+        { "name" => "metadata.rb", "path" => "metadata.rb", "checksum" => "eea518f9315141f07bec8278fb05688c", "specificity" => "default", "url" => "https://example.com/metadata.rb" },
       ],
     }
 
@@ -23,7 +23,8 @@ RSpec.describe CookbookOmnifetch::MetadataBasedInstaller::CookbookMetadata do
   subject(:cb_metadata) { described_class.new(raw_metadata) }
 
   it "yields a set of paths and urls" do
-    expect { |b| cb_metadata.files(&b) }.to yield_successive_args(["https://example.com/recipes/default.rb", "recipes/default.rb"], ["https://example.com/metadata.rb", "metadata.rb"])
+    expect { |b| cb_metadata.files(&b) }.to yield_successive_args(["https://example.com/recipes/default.rb", "recipes/default.rb", "da97c94bb6acb2b7900cbf951654fea3"],
+                                                                  ["https://example.com/metadata.rb", "metadata.rb", "eea518f9315141f07bec8278fb05688c"])
   end
 end
 
@@ -65,8 +66,6 @@ RSpec.describe CookbookOmnifetch::MetadataBasedInstaller do
 
   let(:test_root) { Dir.mktmpdir(nil) }
 
-  let(:cache_path) { File.join(test_root, "cache") }
-
   let(:remote_path) { File.join(test_root, "remote") }
 
   let(:install_path) { File.join(test_root, "install_path") }
@@ -87,30 +86,13 @@ RSpec.describe CookbookOmnifetch::MetadataBasedInstaller do
 
   before do
     FileUtils.cp_r(cookbook_fixture_path, remote_path)
-
-    allow(CookbookOmnifetch).to receive(:cache_path).and_return(cache_path)
   end
 
   after do
-    FileUtils.rm_r(test_root)
-  end
-
-  it "stages the download to a randomized location" do
-    Kernel.srand(0)
-    expected_path = Pathname.new(cache_path).join(".cache_tmp/metadata-installer/_cookbooks_example_0_5_0_209652396")
-
-    expect(installer.staging_path).to eq(expected_path)
-
-    next_installer = described_class.new(http_client: http_client,
-                                         url_path: url_path,
-                                         install_path: install_path)
-
-    next_expected_path = Pathname.new(cache_path).join(".cache_tmp/metadata-installer/_cookbooks_example_0_5_0_398764591")
-    expect(next_installer.staging_path).to eq(next_expected_path)
+    #  FileUtils.rm_r(test_root)
   end
 
   describe "installing the cookbook" do
-
     before do
       expect(http_client).to receive(:get)
         .with(url_path)
@@ -125,11 +107,33 @@ RSpec.describe CookbookOmnifetch::MetadataBasedInstaller do
 
     it "installs the cookbook to the desired install path" do
       expect(Dir).to_not exist(install_path)
-
       installer.install
-
       expect(Dir).to exist(install_path)
       expect(Dir.glob("#{install_path}/**/*")).to match_array(expected_installed_files)
+    end
+
+    it "Removes extra files from the install path" do
+      FileUtils.mkdir(install_path)
+      File.write(File.join(install_path, "extra.rb"), "blah")
+      installer.install
+      expect(Dir.glob("#{install_path}/**/*")).to match_array(expected_installed_files)
+    end
+
+    context "when files are changed in place" do
+      let(:content_digest) { "da97c94bb6acb2b7900cbf951654fea3" }
+      it "replaces them with the right file" do
+        corrupt_target = File.join(install_path, "recipes", "default.rb")
+        FileUtils.mkdir_p(File.dirname(corrupt_target))
+        File.write(corrupt_target, "This digest is no longer #{content_digest}")
+
+        # Sanity check to prove to ourselves that the checksum is wrong.
+        expect(installer.file_outdated?(corrupt_target, content_digest)).to be(true)
+
+        installer.install # force the cache update
+
+        # Will no longer report as outdated because it was replaced with the wrong one.
+        expect(installer.file_outdated?(corrupt_target, content_digest)).to be(false)
+      end
     end
 
   end

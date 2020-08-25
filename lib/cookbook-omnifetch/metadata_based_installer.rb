@@ -1,4 +1,5 @@
 require_relative "threaded_job_queue"
+require "digest/md5"
 
 module CookbookOmnifetch
 
@@ -27,7 +28,7 @@ module CookbookOmnifetch
           next unless @metadata.key?(type.to_s)
 
           @metadata[type.to_s].each do |file|
-            yield file["url"], file["path"]
+            yield file["url"], file["path"], file["checksum"]
           end
         end
       end
@@ -46,50 +47,80 @@ module CookbookOmnifetch
     end
 
     def install
-      FileUtils.rm_rf(staging_path) # ensure we have a clean dir, just in case
-      FileUtils.mkdir_p(staging_root) unless staging_root.exist?
-      md = http_client.get(url_path)
+      metadata = http_client.get(url_path)
+      clean_cache(metadata)
+      sync_cache(metadata)
+    end
 
+    # Removes files from cache that are not supposed to be there, based on
+    # files in metadata.
+    def clean_cache(metadata)
+      actual_file_list = Dir.glob(File.join(install_path, "**/*"))
+      expected_file_list = []
+      CookbookMetadata.new(metadata).files { |_, path, _| expected_file_list << File.join(install_path, path) }
+
+      extra_files = actual_file_list - expected_file_list
+      extra_files.each do |path|
+        if File.file?(path)
+          FileUtils.rm(path)
+        end
+      end
+    end
+
+    # Downloads any out-of-date files into installer cache, overwriting
+    # those that don't match the checksum provided the metadata @ url_path
+    def sync_cache(metadata)
       queue = ThreadedJobQueue.new
-
-      CookbookMetadata.new(md).files do |url, path|
-        stage = staging_path.join(path)
-        FileUtils.mkdir_p(File.dirname(stage))
-
-        queue << lambda do |_lock|
-          http_client.streaming_request(url) do |tempfile|
-            tempfile.close
-            FileUtils.mv(tempfile.path, stage)
+      CookbookMetadata.new(metadata).files do |url, path, checksum|
+        dest_path = File.join(install_path, path)
+        FileUtils.mkdir_p(File.dirname(dest_path))
+        if file_outdated?(dest_path, checksum)
+          queue << lambda do |_lock|
+            http_client.streaming_request(url) do |tempfile|
+              tempfile.close
+              FileUtils.mv(tempfile.path, dest_path)
+            end
           end
         end
       end
-
       queue.process(CookbookOmnifetch.chef_server_download_concurrency)
-
-      FileUtils.mv(staging_path, install_path)
     end
 
-    # The path where files are downloaded to.  On certain platforms you have a
-    # better chance of getting an atomic move if your temporary working
-    # directory is on the same device/volume as the  destination.  To support
-    # this, we use a staging directory located under the cache path under the
-    # rather mild assumption that everything under the cache path is going to
-    # be on one device.
+    # Check if a given file (at absolute path) is missing or does has a mismatched md5sum
     #
-    # @return [Pathname]
-    def staging_root
-      Pathname.new(CookbookOmnifetch.cache_path).join(".cache_tmp", "metadata-installer")
+    # @return [TrueClass, FalseClass]
+    def file_outdated?(path, expected_md5sum)
+      return true unless File.exist?(path)
+
+      md5 = Digest::MD5.new
+      open(path, "r") do |file|
+        while (chunk = file.read(1024))
+          md5.update chunk
+        end
+      end
+      md5.to_s != expected_md5sum
     end
 
-    def staging_path
-      staging_root.join(staging_cache_key)
-    end
+    # TODO _ delete this once there's no need to discuss.
+    # Original comment for `staging_root` preserved below, since it seems to capture the motivation
+    # for the way we were all CB files to a temp location, then moving the entire structure to the
+    # cache location:
+    #
+    # #  On certain platforms you have a better chance of getting an atomic move
+    # # if your temporary working directory is on the same device/volume as the
+    # # destination.  To support this, we use a staging directory located under
+    # # the cache path under the rather mild assumption that everything under the
+    # # cache path is going to be on one device.
+    #
+    # However, the file-download/move code is using a temporary file for each CB file, and it then
+    # moved that temporary file to the staging_root (now it moves to the cache location instead)
+    # In all the time since we've released this, we have not seen a significant indication that moving
+    # all the tempfiles is a problem on any platform - and there is no guarantee that the tempfiles
+    # will be on the same device/volume as the destination.
+    #
+    # Given that, it seems safe to do away with this.
+    #
+    # - marcparadise
 
-    # Convert the URL to a safe name for a file and append our random slug.
-    # This helps us avoid colliding in the case that there are multiple
-    # processes installing the same cookbook at the same time.
-    def staging_cache_key
-      "#{url_path.gsub(/[^[:alnum:]]/, "_")}_#{slug}"
-    end
   end
 end
