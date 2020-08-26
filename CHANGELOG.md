@@ -1,9 +1,17 @@
 # Change Log
 
-<!-- latest_release -->
+<!-- latest_release 0.11.0 -->
+## [v0.11.0](https://github.com/chef/cookbook-omnifetch/tree/v0.11.0) (2020-08-26)
+
+#### Merged Pull Requests
+- Set minimum ruby to 2.5, since 2.4 is EOL [#34](https://github.com/chef/cookbook-omnifetch/pull/34) ([marcparadise](https://github.com/marcparadise))
 <!-- latest_release -->
 
-<!-- release_rollup -->
+<!-- release_rollup since=0.10.1 -->
+### Changes not yet released to rubygems.org
+
+#### Merged Pull Requests
+- Set minimum ruby to 2.5, since 2.4 is EOL [#34](https://github.com/chef/cookbook-omnifetch/pull/34) ([marcparadise](https://github.com/marcparadise)) <!-- 0.11.0 -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
