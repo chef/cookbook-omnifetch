@@ -89,7 +89,7 @@ RSpec.describe CookbookOmnifetch::MetadataBasedInstaller do
   end
 
   after do
-    #  FileUtils.rm_r(test_root)
+    FileUtils.rm_r(test_root)
   end
 
   describe "installing the cookbook" do

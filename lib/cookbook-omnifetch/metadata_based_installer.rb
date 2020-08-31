@@ -93,34 +93,12 @@ module CookbookOmnifetch
       return true unless File.exist?(path)
 
       md5 = Digest::MD5.new
-      open(path, "r") do |file|
+      File.open(path, "r") do |file|
         while (chunk = file.read(1024))
           md5.update chunk
         end
       end
       md5.to_s != expected_md5sum
     end
-
-    # TODO _ delete this once there's no need to discuss.
-    # Original comment for `staging_root` preserved below, since it seems to capture the motivation
-    # for the way we were all CB files to a temp location, then moving the entire structure to the
-    # cache location:
-    #
-    # #  On certain platforms you have a better chance of getting an atomic move
-    # # if your temporary working directory is on the same device/volume as the
-    # # destination.  To support this, we use a staging directory located under
-    # # the cache path under the rather mild assumption that everything under the
-    # # cache path is going to be on one device.
-    #
-    # However, the file-download/move code is using a temporary file for each CB file, and it then
-    # moved that temporary file to the staging_root (now it moves to the cache location instead)
-    # In all the time since we've released this, we have not seen a significant indication that moving
-    # all the tempfiles is a problem on any platform - and there is no guarantee that the tempfiles
-    # will be on the same device/volume as the destination.
-    #
-    # Given that, it seems safe to do away with this.
-    #
-    # - marcparadise
-
   end
 end
