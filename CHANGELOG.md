@@ -1,26 +1,23 @@
 # Change Log
 
-<!-- latest_release 0.11.1 -->
-## [v0.11.1](https://github.com/chef/cookbook-omnifetch/tree/v0.11.1) (2020-08-31)
-
-#### Merged Pull Requests
-- Change cache validation to always check sums [#33](https://github.com/chef/cookbook-omnifetch/pull/33) ([marcparadise](https://github.com/marcparadise))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=0.10.1 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Change cache validation to always check sums [#33](https://github.com/chef/cookbook-omnifetch/pull/33) ([marcparadise](https://github.com/marcparadise)) <!-- 0.11.1 -->
-- Set minimum ruby to 2.5, since 2.4 is EOL [#34](https://github.com/chef/cookbook-omnifetch/pull/34) ([marcparadise](https://github.com/marcparadise)) <!-- 0.11.0 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v0.11.1](https://github.com/chef/cookbook-omnifetch/tree/v0.11.1) (2020-08-31)
+
+#### Merged Pull Requests
+- Set minimum ruby to 2.5, since 2.4 is EOL [#34](https://github.com/chef/cookbook-omnifetch/pull/34) ([marcparadise](https://github.com/marcparadise))
+- Change cache validation to always check sums [#33](https://github.com/chef/cookbook-omnifetch/pull/33) ([marcparadise](https://github.com/marcparadise))
+<!-- latest_stable_release -->
+
 ## [v0.10.1](https://github.com/chef/cookbook-omnifetch/tree/v0.10.1) (2020-08-21)
 
 #### Merged Pull Requests
 - Optimize our requires [#32](https://github.com/chef/cookbook-omnifetch/pull/32) ([tas50](https://github.com/tas50))
-<!-- latest_stable_release -->
 
 ## [v0.10.0](https://github.com/chef/cookbook-omnifetch/tree/v0.10.0) (2020-07-15)
 
