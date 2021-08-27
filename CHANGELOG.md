@@ -1,16 +1,17 @@
 # Change Log
 
-<!-- latest_release 0.11.2 -->
-## [v0.11.2](https://github.com/chef/cookbook-omnifetch/tree/v0.11.2) (2021-05-04)
+<!-- latest_release 0.12.0 -->
+## [v0.12.0](https://github.com/chef/cookbook-omnifetch/tree/v0.12.0) (2021-08-27)
 
 #### Merged Pull Requests
-- Upgrade to GitHub-native Dependabot [#36](https://github.com/chef/cookbook-omnifetch/pull/36) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Require Ruby 2.6+ / Replace deprecated --without flag with bundle config [#38](https://github.com/chef/cookbook-omnifetch/pull/38) ([skeshari12](https://github.com/skeshari12))
 <!-- latest_release -->
 
 <!-- release_rollup since=0.11.1 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Require Ruby 2.6+ / Replace deprecated --without flag with bundle config [#38](https://github.com/chef/cookbook-omnifetch/pull/38) ([skeshari12](https://github.com/skeshari12)) <!-- 0.12.0 -->
 - Upgrade to GitHub-native Dependabot [#36](https://github.com/chef/cookbook-omnifetch/pull/36) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 0.11.2 -->
 <!-- release_rollup -->
 
