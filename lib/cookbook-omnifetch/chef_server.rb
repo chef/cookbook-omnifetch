@@ -34,8 +34,7 @@ module CookbookOmnifetch
     #
     # @return [Boolean]
     def installed?
-      # Always force a refresh of cache
-      false
+      install_path.exist?
     end
 
     def http_client
