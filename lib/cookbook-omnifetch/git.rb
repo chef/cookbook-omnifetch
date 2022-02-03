@@ -60,7 +60,7 @@ module CookbookOmnifetch
         git %{reset --hard #{@revision}}
 
         if rel
-          git %{filter-branch --subdirectory-filter "#{rel}" --force}
+          scratch_path = File.join(scratch_path, rel)
         end
       end
 
