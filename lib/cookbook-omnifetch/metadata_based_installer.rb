@@ -1,5 +1,5 @@
 require_relative "threaded_job_queue"
-require "digest/md5"
+require "digest/md5" unless defined?(Digest::MD5)
 
 module CookbookOmnifetch
 

@@ -1,5 +1,5 @@
 require "spec_helper"
-require "cookbook-omnifetch/metadata_based_installer.rb"
+require "cookbook-omnifetch/metadata_based_installer"
 
 RSpec.shared_context "sample_metadata" do
 
