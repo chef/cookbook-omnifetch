@@ -1,5 +1,5 @@
 require "spec_helper"
-require "cookbook-omnifetch/metadata_based_installer.rb"
+require "cookbook-omnifetch/metadata_based_installer"
 
 RSpec.shared_context "sample_metadata" do
 
@@ -103,6 +103,22 @@ RSpec.describe CookbookOmnifetch::MetadataBasedInstaller do
       expect(http_client).to receive(:streaming_request)
         .with(root_file_url)
         .and_yield(root_file_filehandle)
+    end
+
+    it "does not directly modify files in the install_path" do
+      FileUtils.mkdir(install_path)
+      File.write(File.join(install_path, "extra.rb"), "blah")
+      original_files = Dir.glob("#{install_path}/**/*")
+
+      # Prevent the staging area from publishing to install_path.
+      sa = CookbookOmnifetch::StagingArea.new
+      allow(sa).to receive(:publish!).and_return(nil)
+      allow(CookbookOmnifetch::StagingArea).to receive(:new).and_return(sa)
+
+      installer.install
+
+      # Confirm that install did not add or remove anything in install_path.
+      expect(Dir.glob("#{install_path}/**/*")).to match_array(original_files)
     end
 
     it "installs the cookbook to the desired install path" do

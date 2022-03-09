@@ -1,5 +1,6 @@
 require_relative "threaded_job_queue"
-require "digest/md5"
+require_relative "staging_area"
+require "digest/md5" unless defined?(Digest::MD5)
 
 module CookbookOmnifetch
 
@@ -47,17 +48,20 @@ module CookbookOmnifetch
     end
 
     def install
-      metadata = http_client.get(url_path)
-      clean_cache(metadata)
-      sync_cache(metadata)
+      StagingArea.stage(install_path) do |staging_path|
+        FileUtils.cp_r("#{install_path}/.", staging_path) if Dir.exist?(install_path)
+        metadata = http_client.get(url_path)
+        clean_cache(staging_path, metadata)
+        sync_cache(staging_path, metadata)
+      end
     end
 
     # Removes files from cache that are not supposed to be there, based on
     # files in metadata.
-    def clean_cache(metadata)
-      actual_file_list = Dir.glob(File.join(install_path, "**/*"))
+    def clean_cache(staging_path, metadata)
+      actual_file_list = Dir.glob(File.join(staging_path, "**/*"))
       expected_file_list = []
-      CookbookMetadata.new(metadata).files { |_, path, _| expected_file_list << File.join(install_path, path) }
+      CookbookMetadata.new(metadata).files { |_, path, _| expected_file_list << File.join(staging_path, path) }
 
       extra_files = actual_file_list - expected_file_list
       extra_files.each do |path|
@@ -69,10 +73,10 @@ module CookbookOmnifetch
 
     # Downloads any out-of-date files into installer cache, overwriting
     # those that don't match the checksum provided the metadata @ url_path
-    def sync_cache(metadata)
+    def sync_cache(staging_path, metadata)
       queue = ThreadedJobQueue.new
       CookbookMetadata.new(metadata).files do |url, path, checksum|
-        dest_path = File.join(install_path, path)
+        dest_path = File.join(staging_path, path)
         FileUtils.mkdir_p(File.dirname(dest_path))
         if file_outdated?(dest_path, checksum)
           queue << lambda do |_lock|

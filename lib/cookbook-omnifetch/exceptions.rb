@@ -106,4 +106,9 @@ module CookbookOmnifetch
     end
   end
 
+  class StagingAreaNotAvailable < OmnifetchError
+    def initialize
+      super "failed to access a StagingArea that is no longer available"
+    end
+  end
 end

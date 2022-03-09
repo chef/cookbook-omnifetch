@@ -7,7 +7,7 @@ module Fixtures
   end
 
   def spec_root
-    Pathname.new(File.expand_path(File.dirname(__FILE__)))
+    Pathname.new(__dir__)
   end
 
 end

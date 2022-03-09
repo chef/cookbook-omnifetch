@@ -1,5 +1,5 @@
 require "spec_helper"
-require "cookbook-omnifetch/chef_server.rb"
+require "cookbook-omnifetch/chef_server"
 
 RSpec.describe CookbookOmnifetch::ChefServerArtifactLocation do
 
