@@ -1,3 +1,5 @@
+require_relative "exceptions"
+
 module CookbookOmnifetch
   # A staging area in which the caller can stage files and publish them to a
   # local directory.
