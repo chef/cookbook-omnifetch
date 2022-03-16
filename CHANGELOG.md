@@ -1,16 +1,17 @@
 # Change Log
 
-<!-- latest_release 0.12.1 -->
-## [v0.12.1](https://github.com/chef/cookbook-omnifetch/tree/v0.12.1) (2022-03-09)
+<!-- latest_release 0.12.2 -->
+## [v0.12.2](https://github.com/chef/cookbook-omnifetch/tree/v0.12.2) (2022-03-16)
 
 #### Merged Pull Requests
-- Restore functionality of installed? and reintroduce staging area for ChefServer locations [#41](https://github.com/chef/cookbook-omnifetch/pull/41) ([karmix](https://github.com/karmix))
+- Minor: add missing require [#42](https://github.com/chef/cookbook-omnifetch/pull/42) ([karmix](https://github.com/karmix))
 <!-- latest_release -->
 
 <!-- release_rollup since=0.11.1 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Minor: add missing require [#42](https://github.com/chef/cookbook-omnifetch/pull/42) ([karmix](https://github.com/karmix)) <!-- 0.12.2 -->
 - Restore functionality of installed? and reintroduce staging area for ChefServer locations [#41](https://github.com/chef/cookbook-omnifetch/pull/41) ([karmix](https://github.com/karmix)) <!-- 0.12.1 -->
 - Require Ruby 2.6+ / Replace deprecated --without flag with bundle config [#38](https://github.com/chef/cookbook-omnifetch/pull/38) ([skeshari12](https://github.com/skeshari12)) <!-- 0.12.0 -->
 - Upgrade to GitHub-native Dependabot [#36](https://github.com/chef/cookbook-omnifetch/pull/36) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 0.11.2 -->
