@@ -14,12 +14,16 @@ module CookbookOmnifetch
         "The resource at '/path/to/cookbook' does not appear to be a valid cookbook. Does it have a metadata.rb?"
       end
 
+      let(:message_win) do
+        "The resource at 'C:/path/to/cookbook' does not appear to be a valid cookbook. Does it have a metadata.rb?"
+      end
+
       it "creates an informative error in #message" do
-        expect(exception.message).to eq(message)
+        expect(exception.message).to eq(message).or eq(message_win)
       end
 
       it "creates an informative error in #to_s" do
-        expect(exception.to_s).to eq(message)
+        expect(exception.to_s).to eq(message).or eq(message_win)
       end
 
     end
