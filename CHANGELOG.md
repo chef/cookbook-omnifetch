@@ -1,29 +1,26 @@
 # Change Log
 
-<!-- latest_release 0.12.2 -->
-## [v0.12.2](https://github.com/chef/cookbook-omnifetch/tree/v0.12.2) (2022-03-16)
-
-#### Merged Pull Requests
-- Minor: add missing require [#42](https://github.com/chef/cookbook-omnifetch/pull/42) ([karmix](https://github.com/karmix))
+<!-- latest_release -->
 <!-- latest_release -->
 
-<!-- release_rollup since=0.11.1 -->
-### Changes not yet released to rubygems.org
-
-#### Merged Pull Requests
-- Minor: add missing require [#42](https://github.com/chef/cookbook-omnifetch/pull/42) ([karmix](https://github.com/karmix)) <!-- 0.12.2 -->
-- Restore functionality of installed? and reintroduce staging area for ChefServer locations [#41](https://github.com/chef/cookbook-omnifetch/pull/41) ([karmix](https://github.com/karmix)) <!-- 0.12.1 -->
-- Require Ruby 2.6+ / Replace deprecated --without flag with bundle config [#38](https://github.com/chef/cookbook-omnifetch/pull/38) ([skeshari12](https://github.com/skeshari12)) <!-- 0.12.0 -->
-- Upgrade to GitHub-native Dependabot [#36](https://github.com/chef/cookbook-omnifetch/pull/36) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot])) <!-- 0.11.2 -->
+<!-- release_rollup -->
 <!-- release_rollup -->
 
 <!-- latest_stable_release -->
+## [v0.12.2](https://github.com/chef/cookbook-omnifetch/tree/v0.12.2) (2022-05-18)
+
+#### Merged Pull Requests
+- Upgrade to GitHub-native Dependabot [#36](https://github.com/chef/cookbook-omnifetch/pull/36) ([dependabot-preview[bot]](https://github.com/dependabot-preview[bot]))
+- Require Ruby 2.6+ / Replace deprecated --without flag with bundle config [#38](https://github.com/chef/cookbook-omnifetch/pull/38) ([skeshari12](https://github.com/skeshari12))
+- Restore functionality of installed? and reintroduce staging area for ChefServer locations [#41](https://github.com/chef/cookbook-omnifetch/pull/41) ([karmix](https://github.com/karmix))
+- Minor: add missing require [#42](https://github.com/chef/cookbook-omnifetch/pull/42) ([karmix](https://github.com/karmix))
+<!-- latest_stable_release -->
+
 ## [v0.11.1](https://github.com/chef/cookbook-omnifetch/tree/v0.11.1) (2020-08-31)
 
 #### Merged Pull Requests
 - Set minimum ruby to 2.5, since 2.4 is EOL [#34](https://github.com/chef/cookbook-omnifetch/pull/34) ([marcparadise](https://github.com/marcparadise))
 - Change cache validation to always check sums [#33](https://github.com/chef/cookbook-omnifetch/pull/33) ([marcparadise](https://github.com/marcparadise))
-<!-- latest_stable_release -->
 
 ## [v0.10.1](https://github.com/chef/cookbook-omnifetch/tree/v0.10.1) (2020-08-21)
 
