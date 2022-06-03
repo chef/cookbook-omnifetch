@@ -23,7 +23,7 @@ module CookbookOmnifetch
       @rel      = options[:rel]
 
       # The revision to parse
-      @rev_parse = options[:ref] || options[:branch] || options[:tag] || "master"
+      @rev_parse = options[:ref] || options[:branch] || options[:tag] || "main"
     end
 
     # @see BaseLoation#installed?
