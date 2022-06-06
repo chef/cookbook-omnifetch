@@ -1,5 +1,6 @@
 require "spec_helper"
 require "cookbook-omnifetch/git"
+require "pathname"
 
 module CookbookOmnifetch
   describe GitLocation do
@@ -69,9 +70,9 @@ module CookbookOmnifetch
           expect(rev_parse(instance)).to eq("v1.2.3")
         end
 
-        it 'uses "master" when none is given' do
+        it 'uses "main" when none is given' do
           instance = described_class.new(dependency, git: "https://repo.com")
-          expect(rev_parse(instance)).to eq("master")
+          expect(rev_parse(instance)).to eq("main")
         end
       end
     end
