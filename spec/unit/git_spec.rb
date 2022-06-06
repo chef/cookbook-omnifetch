@@ -1,6 +1,6 @@
 require "spec_helper"
 require "cookbook-omnifetch/git"
-require 'pathname'
+require "pathname"
 
 module CookbookOmnifetch
   describe GitLocation do
