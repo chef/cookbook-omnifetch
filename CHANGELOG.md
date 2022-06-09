@@ -1,16 +1,17 @@
 # Change Log
 
-<!-- latest_release 0.12.3 -->
-## [v0.12.3](https://github.com/chef/cookbook-omnifetch/tree/v0.12.3) (2022-06-06)
+<!-- latest_release 0.12.4 -->
+## [v0.12.4](https://github.com/chef/cookbook-omnifetch/tree/v0.12.4) (2022-06-09)
 
 #### Merged Pull Requests
-- changing revision to parse default as main from master [#44](https://github.com/chef/cookbook-omnifetch/pull/44) ([i5pranay93](https://github.com/i5pranay93))
+- changing git protocal with https [#45](https://github.com/chef/cookbook-omnifetch/pull/45) ([i5pranay93](https://github.com/i5pranay93))
 <!-- latest_release -->
 
 <!-- release_rollup since=0.12.2 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- changing git protocal with https [#45](https://github.com/chef/cookbook-omnifetch/pull/45) ([i5pranay93](https://github.com/i5pranay93)) <!-- 0.12.4 -->
 - changing revision to parse default as main from master [#44](https://github.com/chef/cookbook-omnifetch/pull/44) ([i5pranay93](https://github.com/i5pranay93)) <!-- 0.12.3 -->
 <!-- release_rollup -->
 
