@@ -120,6 +120,7 @@ module CookbookOmnifetch
           expect(subject).to receive(:git).with(
             'fetch --force --tags https://repo.com "refs/heads/*:refs/heads/*"'
           )
+          expect(FileUtils).to receive(:cp_r).with(/#{File::SEPARATOR}hi$/, anything)
           subject.install
         end
       end
@@ -133,6 +134,7 @@ module CookbookOmnifetch
           expect(subject).to receive(:git).with(
             %{clone https://repo.com "#{cache_path}" --bare --no-hardlinks}
           )
+          expect(FileUtils).to receive(:cp_r).with(/#{File::SEPARATOR}hi$/, anything)
           subject.install
         end
       end
