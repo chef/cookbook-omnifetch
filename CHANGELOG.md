@@ -1,16 +1,17 @@
 # Change Log
 
-<!-- latest_release 0.12.4 -->
-## [v0.12.4](https://github.com/chef/cookbook-omnifetch/tree/v0.12.4) (2022-06-09)
+<!-- latest_release 0.12.5 -->
+## [v0.12.5](https://github.com/chef/cookbook-omnifetch/tree/v0.12.5) (2023-03-29)
 
 #### Merged Pull Requests
-- changing git protocal with https [#45](https://github.com/chef/cookbook-omnifetch/pull/45) ([i5pranay93](https://github.com/i5pranay93))
+- Added the  SonarQube configuration [#46](https://github.com/chef/cookbook-omnifetch/pull/46) ([nikhil2611](https://github.com/nikhil2611))
 <!-- latest_release -->
 
 <!-- release_rollup since=0.12.2 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- Added the  SonarQube configuration [#46](https://github.com/chef/cookbook-omnifetch/pull/46) ([nikhil2611](https://github.com/nikhil2611)) <!-- 0.12.5 -->
 - changing git protocal with https [#45](https://github.com/chef/cookbook-omnifetch/pull/45) ([i5pranay93](https://github.com/i5pranay93)) <!-- 0.12.4 -->
 - changing revision to parse default as main from master [#44](https://github.com/chef/cookbook-omnifetch/pull/44) ([i5pranay93](https://github.com/i5pranay93)) <!-- 0.12.3 -->
 <!-- release_rollup -->
