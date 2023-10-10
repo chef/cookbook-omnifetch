@@ -25,7 +25,7 @@ Gem::Specification.new do |spec|
   spec.homepage      = "https://github.com/chef/cookbook-omnifetch"
   spec.license       = "Apache-2.0"
 
-  spec.required_ruby_version = ">= 2.5"
+  spec.required_ruby_version = ">= 2.7"
 
   spec.files         = `git ls-files -z`.split("\x0").grep(/LICENSE|^lib/)
   spec.require_paths = ["lib"]
