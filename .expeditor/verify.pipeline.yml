@@ -1,30 +1,14 @@
 ---
 steps:
-- label: run-specs-ruby-2.7
+- label: "run-specs-ruby-3.3"
   command:
     - .expeditor/run_linux_tests.sh
   expeditor:
     executor:
       docker:
-        image: ruby:2.7
+        image: ruby:3.3
 
-- label: "run-specs-ruby-3.0"
-  command:
-    - .expeditor/run_linux_tests.sh
-  expeditor:
-    executor:
-      docker:
-        image: ruby:3.0
-
-- label: "run-specs-ruby-3.1"
-  command:
-    - .expeditor/run_linux_tests.sh
-  expeditor:
-    executor:
-      docker:
-        image: ruby:3.1
-
-- label: ":windows: :ruby: 3.0"
+- label: ":windows: :ruby: 3.3"
   command:
     - .expeditor/run_windows_tests.ps1
   timeout_in_minutes: 20
@@ -33,19 +17,6 @@ steps:
       docker:
         host_os: windows
         shell: ["powershell", "-Command"]
-        image: rubydistros/windows-2019:3.0
-        environment:
-          - BUNDLE_GEMFILE=/workdir/Gemfile
-
-- label: ":windows: :ruby: 3.1"
-  command:
-    - .expeditor/run_windows_tests.ps1
-  timeout_in_minutes: 20
-  expeditor:
-    executor:
-      docker:
-        host_os: windows
-        shell: ["powershell", "-Command"]
-        image: rubydistros/windows-2019:3.1
+        image: rubydistros/windows-2019:3.3
         environment:
           - BUNDLE_GEMFILE=/workdir/Gemfile
