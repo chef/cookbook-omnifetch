@@ -95,3 +95,6 @@ After that:
 
 This code was initially extracted from Berkshelf. Thanks to the
 Berkshelf core teams and contributors.
+
+# Copyright
+See [COPYRIGHT.md](./COPYRIGHT.md).
