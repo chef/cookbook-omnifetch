@@ -1,16 +1,17 @@
 # Change Log
 
-<!-- latest_release 0.12.5 -->
-## [v0.12.5](https://github.com/chef/cookbook-omnifetch/tree/v0.12.5) (2023-03-29)
+<!-- latest_release 0.12.6 -->
+## [v0.12.6](https://github.com/chef/cookbook-omnifetch/tree/v0.12.6) (2026-04-17)
 
 #### Merged Pull Requests
-- Added the  SonarQube configuration [#46](https://github.com/chef/cookbook-omnifetch/pull/46) ([nikhil2611](https://github.com/nikhil2611))
+- CHEF-28537 - Create SECURITY.md file with standard template [#54](https://github.com/chef/cookbook-omnifetch/pull/54) ([cgunasree08](https://github.com/cgunasree08))
 <!-- latest_release -->
 
 <!-- release_rollup since=0.12.2 -->
 ### Changes not yet released to rubygems.org
 
 #### Merged Pull Requests
+- CHEF-28537 - Create SECURITY.md file with standard template [#54](https://github.com/chef/cookbook-omnifetch/pull/54) ([cgunasree08](https://github.com/cgunasree08)) <!-- 0.12.6 -->
 - Added the  SonarQube configuration [#46](https://github.com/chef/cookbook-omnifetch/pull/46) ([nikhil2611](https://github.com/nikhil2611)) <!-- 0.12.5 -->
 - changing git protocal with https [#45](https://github.com/chef/cookbook-omnifetch/pull/45) ([i5pranay93](https://github.com/i5pranay93)) <!-- 0.12.4 -->
 - changing revision to parse default as main from master [#44](https://github.com/chef/cookbook-omnifetch/pull/44) ([i5pranay93](https://github.com/i5pranay93)) <!-- 0.12.3 -->
