@@ -18,9 +18,22 @@ module CookbookOmnifetch
       if options[:http_client]
         @http_client = options[:http_client]
       else
-        headers = { "X-Jfrog-Art-API" => Chef::Config.artifactory_api_key || ENV["ARTIFACTORY_API_KEY"] }
+       if artifactory_identity_token
+          headers = { "Authorization" => "Bearer #{artifactory_identity_token}" }
+        else
+          headers = { "X-Jfrog-Art-API" => artifactory_api_key }
+        end
         @http_client = Chef::HTTP::Simple.new(uri, headers: headers)
       end
+      end
+    end
+
+    def artifactory_api_key
+      Chef::Config.artifactory_api_key || (ENV["ARTIFACTORY_API_KEY"] unless ENV["ARTIFACTORY_API_KEY"].to_s.strip.empty?)
+    end
+
+    def artifactory_identity_token
+      Chef::Config.artifactory_identity_token || (ENV["ARTIFACTORY_IDENTITY_TOKEN"] unless ENV["ARTIFACTORY_IDENTITY_TOKEN"].to_s.strip.empty?)
     end
 
     def repo_host
